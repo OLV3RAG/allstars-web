@@ -1,0 +1,304 @@
+---
+import { Image } from 'astro:assets';
+import escudo from '../../assets/logo/escudo.png';
+import { club } from '../data/club';
+---
+
+<div
+  data-splash
+  class="splash fixed inset-0 z-[80] bg-[#0A0A0A] text-white transition-opacity duration-700 ease-out"
+>
+  <p class="sr-only" role="status">Cargando {club.nombre}</p>
+  <div class="splash-campo" aria-hidden="true"></div>
+  <div class="splash-marco" aria-hidden="true"></div>
+
+  <div class="splash-contenido" aria-hidden="true">
+    <div class="splash-halo"></div>
+    <div class="splash-escudo drop-shadow-[0_0_25px_rgba(236,193,78,0.4)]">
+      <Image
+        src={escudo}
+        alt=""
+        width={160}
+        height={169}
+        densities={[1, 2]}
+        loading="eager"
+        decoding="sync"
+        fetchpriority="high"
+        class="h-32 w-32 object-contain md:h-40 md:w-40"
+      />
+    </div>
+
+    <p class="splash-nombre font-titulo text-[clamp(2.7rem,8vw,4.75rem)] font-extrabold uppercase italic leading-[0.84]">
+      {club.nombre}
+    </p>
+    <p class="splash-ticker font-titulo">Chihuahua · Temporada 2026</p>
+
+    <div class="mx-auto mt-4 h-1 w-48 overflow-hidden rounded-full bg-white/10">
+      <div class="splash-barra h-full w-full origin-left bg-gradient-to-r from-[#ECC14E] via-[#FFF3B0] to-[#D29628]"></div>
+    </div>
+
+    <p class="splash-pill font-titulo">
+      <span>Cargando cancha...</span>
+      <span class="splash-cuenta"><span data-splash-contador>0</span>%</span>
+    </p>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var html = document.documentElement;
+    var splash = document.querySelector('[data-splash]');
+    if (!splash || !html.classList.contains('splash-activo')) {
+      splash?.remove();
+      html.classList.remove('splash-activo');
+      return;
+    }
+
+    var reducida = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var duracion = reducida ? 320 : 1400;
+    var contador = splash.querySelector('[data-splash-contador]');
+    var inicio = performance.now();
+    var cerrado = false;
+    var aislados = [];
+
+    function aislar() {
+      if (cerrado) return;
+      aislados = [...document.body.children].filter(function (nodo) {
+        return nodo !== splash;
+      });
+      aislados.forEach(function (nodo) {
+        nodo.setAttribute('inert', '');
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aislar, { once: true });
+    } else {
+      aislar();
+    }
+
+    if (!reducida && contador) {
+      var pintar = function (ahora) {
+        var avance = Math.min(1, (ahora - inicio) / duracion);
+        contador.textContent = String(Math.round(avance * 100));
+        if (avance < 1 && !cerrado) requestAnimationFrame(pintar);
+      };
+      requestAnimationFrame(pintar);
+    } else if (contador) {
+      contador.textContent = '100';
+    }
+
+    function liberar() {
+      aislados.forEach(function (nodo) {
+        nodo.removeAttribute('inert');
+      });
+      html.classList.remove('splash-activo');
+      if (location.hash) {
+        var destino = document.querySelector(location.hash);
+        if (destino) destino.scrollIntoView();
+      }
+    }
+
+    function retirar() {
+      if (!splash.isConnected) return;
+      splash.remove();
+      liberar();
+    }
+
+    function cerrar() {
+      if (cerrado) return;
+      cerrado = true;
+      try {
+        sessionStorage.setItem('allstars-splash', '1');
+      } catch (error) {
+        /* sesión no disponible */
+      }
+      splash.classList.add('pointer-events-none', 'opacity-0');
+      splash.setAttribute('aria-hidden', 'true');
+      splash.addEventListener(
+        'transitionend',
+        function (evento) {
+          if (evento.target === splash && evento.propertyName === 'opacity') retirar();
+        },
+        { once: true },
+      );
+      window.setTimeout(retirar, 760);
+    }
+
+    window.setTimeout(cerrar, duracion);
+  })();
+</script>
+
+<style>
+  .splash {
+    display: grid;
+    place-items: center;
+  }
+
+  .splash-campo,
+  .splash-marco,
+  .splash-halo {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .splash-campo {
+    background:
+      radial-gradient(ellipse 46% 38% at 50% 42%, rgb(210 150 40 / 0.22), transparent 68%),
+      #0a0a0a;
+  }
+
+  .splash-campo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 640'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2'%3E%3Crect x='40' y='36' width='920' height='568'/%3E%3Cline x1='500' y1='36' x2='500' y2='604'/%3E%3Ccircle cx='500' cy='320' r='86'/%3E%3Crect x='40' y='168' width='150' height='304'/%3E%3Crect x='810' y='168' width='150' height='304'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: min(980px, 108vw) auto;
+  }
+
+  .splash-marco {
+    background:
+      linear-gradient(#ecc14e, #ecc14e) top / 100% 2px no-repeat,
+      linear-gradient(#d29628, #d29628) bottom / 100% 2px no-repeat;
+    opacity: 0.85;
+  }
+
+  .splash-contenido {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: min(100%, 40rem);
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .splash-halo {
+    inset: auto;
+    top: 8%;
+    left: 50%;
+    width: 16rem;
+    height: 16rem;
+    background: radial-gradient(circle, rgb(236 193 78 / 0.34), rgb(210 150 40 / 0.08) 42%, transparent 70%);
+    transform: translateX(-50%);
+  }
+
+  .splash-escudo {
+    position: relative;
+    z-index: 1;
+  }
+
+  .splash-nombre {
+    margin: 1.15rem 0 0;
+    background: linear-gradient(100deg, #d29628 0%, #ecc14e 36%, #fff3b0 50%, #ecc14e 64%, #d29628 100%);
+    background-clip: text;
+    color: transparent;
+    -webkit-background-clip: text;
+  }
+
+  .splash-ticker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.85rem 0 0;
+    color: rgb(255 255 255 / 0.72);
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .splash-ticker::before,
+  .splash-ticker::after {
+    content: '';
+    width: 1.4rem;
+    flex: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ecc14e);
+  }
+
+  .splash-ticker::after {
+    background: linear-gradient(90deg, #ecc14e, transparent);
+  }
+
+  .splash-barra {
+    transform: scaleX(0);
+    animation: llenar-cancha 1.4s cubic-bezier(0.16, 0.84, 0.32, 1) forwards;
+  }
+
+  .splash-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 1rem 0 0;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.04);
+    padding: 0.35rem 0.75rem;
+    color: rgb(255 255 255 / 0.72);
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .splash-cuenta {
+    color: #ecc14e;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .splash-escudo {
+      animation: shield-pulse 1.4s ease-in-out infinite;
+    }
+
+    .splash-halo {
+      animation: halo-splash 1.4s ease-in-out infinite;
+    }
+  }
+
+  @keyframes shield-pulse {
+    0%,
+    100% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes halo-splash {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: translateX(-50%) scale(0.92);
+    }
+    50% {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.08);
+    }
+  }
+
+  @keyframes llenar-cancha {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @media print {
+    .splash {
+      display: none !important;
+    }
+  }
+</style>

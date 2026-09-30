@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Roster from '../components/Roster.astro';
+import Partidos from '../components/Partidos.astro';
+import Ubicacion from '../components/Ubicacion.astro';
+import { jugadoresDiseno } from './jugadores-diseno';
+import { partidosDiseno } from './partidos-diseno';
+---
+
+<Base
+  title="Vista de diseño | All Stars FC"
+  description="Vista interna de diseño. No forma parte del sitio público."
+  mostrarRoster={true}
+  mostrarPartidos={true}
+>
+  <p class="border-b border-dorado bg-dorado px-4 py-2 text-center text-xs font-bold uppercase tracking-[0.18em] text-negro">
+    Vista de diseño · siluetas y partidos de muestra · no es el sitio público
+  </p>
+  <Hero jugadores={jugadoresDiseno} modoDiseno={true} />
+  <Roster jugadores={jugadoresDiseno} modoDiseno={true} />
+  <Partidos partidos={partidosDiseno} modoDiseno={true} />
+  <Ubicacion />
+</Base>

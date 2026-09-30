@@ -1,0 +1,48 @@
+---
+interface Props {
+  variante?: 'retrato' | 'cuerpo';
+  acento?: 'dorado' | 'plata';
+  class?: string;
+}
+
+const { variante = 'cuerpo', acento = 'dorado', class: className = '' } = Astro.props;
+const linea = acento === 'plata' ? '#C0C0C0' : '#ECC14E';
+const relleno = '#141414';
+---
+
+<svg
+  class:list={['silueta', variante, className]}
+  viewBox={variante === 'retrato' ? '40 0 120 220' : '30 0 140 400'}
+  aria-hidden="true"
+  focusable="false"
+>
+  <circle cx="100" cy="46" r="32" fill={relleno} stroke={linea} stroke-width="4"></circle>
+  <path
+    d="M68 84c10 22 22 30 32 30s22-8 32-30c28 14 48 52 50 96H18C20 136 40 98 68 84Z"
+    fill={relleno}
+    stroke={linea}
+    stroke-width="4"
+    stroke-linejoin="round"
+  ></path>
+  {
+    variante === 'cuerpo' && (
+      <>
+        <path d="M28 184h144v22H28Z" fill={relleno} stroke={linea} stroke-width="4"></path>
+        <path
+          d="M48 210h40l8 150H42Z"
+          fill={relleno}
+          stroke={linea}
+          stroke-width="4"
+          stroke-linejoin="round"
+        ></path>
+        <path
+          d="M112 210h40l6 150H104Z"
+          fill={relleno}
+          stroke={linea}
+          stroke-width="4"
+          stroke-linejoin="round"
+        ></path>
+      </>
+    )
+  }
+</svg>

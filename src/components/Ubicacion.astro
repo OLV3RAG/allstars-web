@@ -1,0 +1,219 @@
+---
+import { club, direccionCompleta, mapsSearchUrl } from '../data/club';
+
+const indicacionesUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(direccionCompleta())}`;
+---
+
+<section id="ubicacion" class="ubicacion relative overflow-hidden bg-negro">
+  <div class="atmosfera-estadio" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-[88rem] px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+    <article class="sede" data-revelar>
+      <p class="sede-fondo trazo-gigante" aria-hidden="true">CUU</p>
+      <div class="sede-datos">
+        <p class="transmision">// SEDE OFICIAL</p>
+        <p class="mt-2 text-[0.7rem] font-bold uppercase tracking-[0.28em] text-dorado">Ficha de cancha</p>
+        <h2 class="sede-nombre font-titulo font-extrabold uppercase italic text-white">
+          {club.sede.nombre}
+        </h2>
+        <div class="sede-direccion">
+          <p class="sede-calle">{club.sede.calle}</p>
+          <p>{club.sede.referencia}</p>
+          <p>{club.sede.ciudad}</p>
+        </div>
+      </div>
+
+      <div class="sede-nav" data-revelar data-revelar-delay="80">
+        <p class="font-titulo text-2xl font-extrabold uppercase italic text-dorado">Cómo llegar</p>
+        <p class="mt-2 text-sm leading-relaxed text-white/70">Consulta la dirección en Google Maps.</p>
+        <div class="sede-acciones">
+          <a
+            href={mapsSearchUrl()}
+            class="sede-btn sede-btn-primario"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg class="sede-icono" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M12 2.2a7.2 7.2 0 0 0-7.2 7.2c0 5.1 6.2 11.6 6.5 11.9a1 1 0 0 0 1.4 0c.3-.3 6.5-6.8 6.5-11.9A7.2 7.2 0 0 0 12 2.2Zm0 9.8a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2Z"
+              ></path>
+            </svg>
+            Abrir en Google Maps
+          </a>
+          <a
+            href={indicacionesUrl}
+            class="sede-btn sede-btn-radar"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span class="radar" aria-hidden="true"></span>
+            Cómo llegar
+            <svg class="flecha" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M5 12h12.2l-4.1-4.1 1.4-1.4L21 13l-6.5 6.5-1.4-1.4 4.1-4.1H5z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </article>
+    <p class="sr-only">{direccionCompleta()}</p>
+  </div>
+</section>
+
+<style>
+  .sede {
+    position: relative;
+    display: grid;
+    gap: 1.75rem;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background:
+      radial-gradient(ellipse at 100% 100%, rgb(210 150 40 / 0.12), transparent 48%),
+      rgb(20 20 20 / 0.82);
+    backdrop-filter: blur(12px);
+    clip-path: polygon(18px 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 18px 100%, 0 calc(100% - 18px), 0 18px);
+    transition: border-color 200ms ease;
+    padding: 1.45rem 1.2rem 1.35rem;
+  }
+
+  .sede-fondo {
+    position: absolute;
+    top: -0.08em;
+    right: -0.04em;
+    font-size: clamp(6.5rem, 22vw, 12rem);
+    pointer-events: none;
+  }
+
+  .sede-datos,
+  .sede-nav {
+    position: relative;
+    z-index: 1;
+  }
+
+  .sede-nombre {
+    margin-top: 0.7rem;
+    font-size: clamp(2.8rem, 10vw, 5.4rem);
+    line-height: 0.82;
+  }
+
+  .sede-direccion {
+    margin-top: 1.15rem;
+    border-left: 2px solid #ecc14e;
+    padding-left: 0.9rem;
+    font-size: 1.02rem;
+    line-height: 1.45;
+    color: rgb(255 255 255 / 0.78);
+  }
+
+  .sede-calle {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.45rem, 3vw, 1.9rem);
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .sede-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-top: 1.15rem;
+  }
+
+  .sede:hover {
+    border-color: rgb(236 193 78 / 0.5);
+  }
+
+  .sede-btn {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 1.15rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .sede-icono {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  .sede-btn-primario {
+    background: #ecc14e;
+    color: #0a0a0a;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+
+  .sede-btn-primario:hover,
+  .sede-btn-primario:focus-visible {
+    background: #f3d078;
+  }
+
+  .sede-btn-radar,
+  .sede-btn-secundario {
+    border: 1px solid rgb(236 193 78 / 0.55);
+    color: #ecc14e;
+  }
+
+  .radar {
+    width: 0.7rem;
+    height: 0.7rem;
+    border: 1px solid #ecc14e;
+    border-radius: 999px;
+    box-shadow: 0 0 0 3px rgb(236 193 78 / 0.18);
+  }
+
+  .flecha {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 180ms ease;
+  }
+
+  .sede-btn-radar:hover .flecha,
+  .sede-btn-radar:focus-visible .flecha {
+    transform: translateX(4px);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .radar {
+      animation: pulse-glow 1.8s ease-out infinite;
+    }
+  }
+
+  .sede-btn-secundario {
+    border: 1px solid rgb(255 255 255 / 0.28);
+    color: #fff;
+  }
+
+  .sede-btn-secundario:hover,
+  .sede-btn-secundario:focus-visible {
+    border-color: #ecc14e;
+    color: #ecc14e;
+  }
+
+  @media (min-width: 640px) {
+    .sede-acciones {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .sede {
+      grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.75fr);
+      align-items: end;
+      padding: 2.2rem 2.2rem 2rem;
+    }
+
+    .sede-nav {
+      padding-bottom: 0.15rem;
+    }
+  }
+</style>

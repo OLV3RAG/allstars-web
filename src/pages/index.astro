@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Club from '../components/Club.astro';
+import Entrenador from '../components/Entrenador.astro';
+import Roster from '../components/Roster.astro';
+import CategoriasCostos from '../components/CategoriasCostos.astro';
+import Partidos from '../components/Partidos.astro';
+import Patrocinadores from '../components/Patrocinadores.astro';
+import Ubicacion from '../components/Ubicacion.astro';
+import Contacto from '../components/Contacto.astro';
+import { jugadoresConRetrato, jugadoresPublicos } from '../lib/jugadores';
+import { partidosPublicos } from '../lib/partidos';
+
+const roster = jugadoresPublicos();
+const retratos = jugadoresConRetrato(roster);
+const partidos = partidosPublicos();
+---
+
+<Base mostrarRoster={roster.length > 0} mostrarPartidos={partidos.length > 0}>
+  <Hero jugadores={retratos} />
+  <Club />
+  {roster.length > 0 && <Roster jugadores={roster} />}
+  <Entrenador />
+  <CategoriasCostos />
+  {partidos.length > 0 && <Partidos partidos={partidos} />}
+  <Patrocinadores />
+  <Ubicacion />
+  <Contacto />
+</Base>

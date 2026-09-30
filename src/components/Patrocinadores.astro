@@ -1,0 +1,180 @@
+---
+import { Image } from 'astro:assets';
+import rasa from '../../assets/patrocinadores/rasa.svg';
+import electronicaPura from '../../assets/patrocinadores/electronica-pura.png';
+import cadel from '../../assets/patrocinadores/cadel.png';
+import oscarGarcia from '../../assets/patrocinadores/oscar-garcia.png';
+import { club } from '../data/club';
+---
+
+<section id="patrocinadores" class="relative overflow-hidden border-t border-white/8 bg-negro">
+  <div class="atmosfera-estadio" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-[88rem] px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+    <div data-revelar>
+      <p class="text-[0.7rem] font-bold uppercase tracking-[0.28em] text-dorado">Sponsors oficiales</p>
+      <h2 class="mt-3 max-w-lg font-titulo text-[clamp(2rem,6vw,3.6rem)] font-extrabold uppercase italic leading-[0.88] text-white">
+        Quienes impulsan al equipo
+      </h2>
+    </div>
+
+    <div class="panel">
+      <ul class="socios">
+        <li class="socio socio-rasa" data-revelar>
+          <Image
+            src={rasa}
+            alt={club.patrocinadores[0].nombre}
+            width={420}
+            height={248}
+            loading="lazy"
+            class="logo-rasa"
+          />
+        </li>
+        <li class="socio socio-perla" data-revelar data-revelar-delay="50">
+          <Image
+            src={electronicaPura}
+            alt={club.patrocinadores[1].nombre}
+            width={574}
+            height={123}
+            loading="lazy"
+            class="logo-electronica"
+          />
+        </li>
+        <li class="socio socio-cadel" data-revelar data-revelar-delay="90">
+          <Image
+            src={cadel}
+            alt={club.patrocinadores[2].nombre}
+            width={791}
+            height={327}
+            loading="lazy"
+            class="cadel-logo"
+          />
+        </li>
+        <li class="socio socio-oscar" data-revelar data-revelar-delay="130">
+          <Image
+            src={oscarGarcia}
+            alt={club.patrocinadores[3].nombre}
+            width={232}
+            height={227}
+            loading="lazy"
+            class="logo-oscar"
+          />
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .panel {
+    margin-top: 2.25rem;
+    border: 1px solid rgb(255 255 255 / 0.05);
+    border-radius: 1.15rem;
+    background: #141414;
+    padding: 0.75rem;
+  }
+
+  .socios {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .socio {
+    position: relative;
+    display: flex;
+    min-height: 8.5rem;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.05);
+    border-radius: 0.85rem;
+    background: #0a0a0a;
+    padding: 1.25rem;
+  }
+
+  .socio::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 40%, rgb(236 193 78 / 0.2), transparent 68%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease;
+  }
+
+  .socio:hover::after,
+  .socio:focus-within::after {
+    opacity: 1;
+  }
+
+  .socio-rasa {
+    background: #0f0f0f;
+  }
+
+  .logo-rasa {
+    height: auto;
+    width: 100%;
+    max-width: 14rem;
+  }
+
+  .socio-perla {
+    background: #f3eee4;
+  }
+
+  .logo-electronica {
+    height: auto;
+    width: 100%;
+    max-width: 13.5rem;
+    filter: invert(1);
+  }
+
+  .socio-cadel {
+    padding: 0;
+    overflow: hidden;
+    background: #c21812;
+  }
+
+  .cadel-logo {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+  }
+
+  .socio-oscar {
+    background: #f7f7f5;
+  }
+
+  .logo-oscar {
+    height: auto;
+    width: 100%;
+    max-width: 9.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .panel {
+      padding: 1rem;
+    }
+
+    .socios {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .socio {
+      min-height: 12rem;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .socios {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: stretch;
+    }
+
+    .socio {
+      min-height: 13.5rem;
+    }
+  }
+</style>

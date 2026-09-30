@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Página no encontrada | All Stars FC"
+  description="Esta página no existe en el sitio de All Stars FC, Chihuahua."
+>
+  <section class="relative overflow-hidden">
+    <p class="trazo-gigante pointer-events-none absolute -right-4 top-8 text-[clamp(8rem,30vw,18rem)]" aria-hidden="true">404</p>
+    <div class="relative mx-auto flex min-h-[70svh] max-w-[88rem] flex-col justify-end px-4 py-16 sm:px-6 lg:px-10">
+      <p class="text-[0.7rem] font-bold uppercase tracking-[0.28em] text-dorado">Error 404</p>
+      <h1 class="mt-4 max-w-3xl font-titulo text-[clamp(2.6rem,8vw,5.4rem)] font-extrabold uppercase italic leading-[0.86] text-white">
+        Esta página no está en la cancha
+      </h1>
+      <p class="mt-6 max-w-md text-white/75">
+        El enlace no corresponde a una sección del sitio. Vuelve al inicio para conocer al club o pedir informes de la
+        clase muestra.
+      </p>
+      <a
+        href="/"
+        class="mt-8 inline-flex min-h-12 w-fit items-center justify-center bg-dorado px-8 text-sm font-bold uppercase tracking-wider text-negro"
+      >
+        Volver al inicio
+      </a>
+    </div>
+  </section>
+</Base>

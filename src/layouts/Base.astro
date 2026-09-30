@@ -1,0 +1,85 @@
+---
+import '../styles/global.css';
+import SplashScreen from '../components/SplashScreen.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { seo } from '../data/club';
+
+interface Props {
+  title?: string;
+  description?: string;
+  mostrarRoster?: boolean;
+  mostrarPartidos?: boolean;
+}
+
+const { title = seo.title, description = seo.description, mostrarRoster = false, mostrarPartidos = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0A0A0A" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="es_MX" />
+    <meta name="twitter:card" content="summary" />
+    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('revelar-armado');
+      }
+    </script>
+    <style is:inline>
+      html.splash-omitido [data-splash] {
+        display: none !important;
+      }
+
+      html.splash-activo,
+      html.splash-activo body {
+        overflow: hidden;
+      }
+    </style>
+    <script is:inline>
+      (function () {
+        var forzar = new URLSearchParams(location.search).get('splash') === '1';
+        var visto = false;
+        try {
+          visto = sessionStorage.getItem('allstars-splash') === '1';
+        } catch (error) {
+          visto = false;
+        }
+        document.documentElement.classList.add(visto && !forzar ? 'splash-omitido' : 'splash-activo');
+      })();
+    </script>
+  </head>
+  <body class="min-h-svh overflow-x-hidden bg-negro font-cuerpo text-white antialiased">
+    <SplashScreen />
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-dorado focus:px-4 focus:py-2 focus:text-negro"
+    >
+      Saltar al contenido
+    </a>
+    <Header mostrarRoster={mostrarRoster} mostrarPartidos={mostrarPartidos} />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+    <script>
+      import { iniciarRevelados } from '../scripts/revelar';
+      iniciarRevelados();
+    </script>
+  </body>
+</html>

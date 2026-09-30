@@ -1,0 +1,233 @@
+---
+import { Image } from 'astro:assets';
+import escudo from '../../assets/logo/escudo.png';
+import { club } from '../data/club';
+
+const valores = [
+  {
+    titulo: 'Equipo',
+    texto: 'Se entrena junto. Nadie llega solo al partido.',
+  },
+  {
+    titulo: 'Unión',
+    texto: 'Familias, jugadores y cuerpo técnico en la misma cancha.',
+  },
+  {
+    titulo: 'Amistad',
+    texto: 'El resultado también se ve fuera del marcador.',
+  },
+];
+---
+
+<section id="el-club" class="club relative overflow-hidden bg-negro">
+  <div class="atmosfera-estadio" aria-hidden="true"></div>
+  <div class="corte-transmision pointer-events-none absolute inset-0"></div>
+  <div class="relative mx-auto max-w-[88rem] px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+    <div class="bento">
+      <article class="bento-principal" data-revelar>
+        <p class="bento-anio" aria-hidden="true">{club.fundacion}</p>
+        <Image
+          src={escudo}
+          alt=""
+          width={280}
+          height={296}
+          loading="lazy"
+          class="bento-escudo"
+        />
+        <div class="relative z-10">
+          <p class="transmision">// VESTIDOR · EL CLUB</p>
+          <p class="text-[0.7rem] font-bold uppercase tracking-[0.28em] text-dorado">El club</p>
+          <p class="bento-hecho font-titulo font-extrabold uppercase italic text-white">
+            Hecho en {club.ciudadCorta}
+            <span aria-hidden="true"> · </span>
+            <span class="text-dorado">{club.fundacion}</span>
+          </p>
+          <h2 class="bento-titulo font-titulo font-extrabold uppercase italic text-white">El grupo es el motivo</h2>
+          <p class="mt-4 max-w-xl text-base leading-relaxed text-white/78 sm:text-lg">
+            All Stars FC es un equipo de fútbol infantil en Chihuahua. El entrenamiento es el oficio.
+          </p>
+        </div>
+      </article>
+
+      <div class="bento-valores">
+        {
+          valores.map((valor, index) => (
+            <article class="valor" data-revelar data-revelar-delay={String(80 + index * 70)}>
+              <p class="valor-indice" aria-hidden="true">{`#${String(index + 1).padStart(2, '0')}`}</p>
+              <h3>{valor.titulo}</h3>
+              <p>{valor.texto}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .bento-principal,
+  .valor {
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(20 20 20 / 0.8);
+    backdrop-filter: blur(12px);
+    clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px);
+    transition:
+      border-color 200ms ease,
+      transform 200ms ease;
+  }
+
+  .bento-principal:hover,
+  .valor:hover {
+    border-color: rgb(236 193 78 / 0.5);
+  }
+
+  .bento-principal {
+    position: relative;
+    overflow: hidden;
+    min-height: 20rem;
+    padding: 1.5rem 1.25rem 1.6rem;
+  }
+
+  .bento-anio {
+    position: absolute;
+    right: -0.04em;
+    bottom: -0.16em;
+    font-family: var(--font-titulo);
+    font-size: clamp(7.5rem, 26vw, 15rem);
+    font-weight: 800;
+    font-style: italic;
+    line-height: 0.78;
+    color: #fff;
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  .bento-escudo {
+    position: absolute;
+    right: 0.4rem;
+    bottom: 0.4rem;
+    z-index: 0;
+    width: 9.5rem;
+    height: auto;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+
+  .bento-hecho {
+    max-width: 16ch;
+    margin-top: 0.85rem;
+    font-size: clamp(2.6rem, 8vw, 4.6rem);
+    line-height: 0.86;
+  }
+
+  .bento-titulo {
+    margin-top: 1.35rem;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    line-height: 0.9;
+  }
+
+  .bento-valores {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .valor {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.15rem 1.15rem 1.2rem;
+  }
+
+  .valor::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 18%;
+    left: 18%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ecc14e, transparent);
+  }
+
+  .valor-indice {
+    font-family: var(--font-titulo);
+    font-size: 2rem;
+    font-weight: 800;
+    font-style: italic;
+    line-height: 1;
+    background-image: linear-gradient(180deg, #fff6d2, #ecc14e 45%, #d29628);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .valor h3 {
+    margin-top: 0.35rem;
+    font-family: var(--font-titulo);
+    font-size: clamp(1.7rem, 3vw, 2.15rem);
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    line-height: 0.9;
+    text-transform: uppercase;
+    color: #ecc14e;
+  }
+
+  .valor h3 + p {
+    margin-top: 0.55rem;
+    max-width: 28rem;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: rgb(255 255 255 / 0.74);
+  }
+
+  :global(html.revelar-armado) .valor.revelado:hover,
+  .valor:hover {
+    border-color: rgb(236 193 78 / 0.7);
+    filter: drop-shadow(0 0 18px rgb(236 193 78 / 0.28));
+    transform: translateY(-0.5rem);
+  }
+
+  @media (min-width: 768px) {
+    .bento-principal {
+      min-height: 24rem;
+      padding: 2rem 2rem 2.1rem;
+    }
+
+    .bento-escudo {
+      width: 13rem;
+    }
+
+    .bento-valores {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bento {
+      grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.82fr);
+      align-items: stretch;
+    }
+
+    .bento-valores {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+      height: 100%;
+    }
+
+    .bento-hecho {
+      max-width: 12ch;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .valor:hover {
+      transform: none;
+    }
+  }
+</style>

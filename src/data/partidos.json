@@ -1,0 +1,24 @@
+[
+  {
+    "id": "match-1",
+    "categoria": "2012",
+    "tipo": "resultado",
+    "rival": "Leones FC",
+    "golesFavor": 3,
+    "golesContra": 1,
+    "fecha": "Sábado 26 de Septiembre",
+    "hora": "10:00 AM",
+    "cancha": "Cancha La Raza",
+    "esLocal": true
+  },
+  {
+    "id": "match-2",
+    "categoria": "2013",
+    "tipo": "proximo",
+    "rival": "Tuzos Chihuahua",
+    "fecha": "Sábado 3 de Octubre",
+    "hora": "11:30 AM",
+    "cancha": "Cancha La Raza",
+    "esLocal": true
+  }
+]

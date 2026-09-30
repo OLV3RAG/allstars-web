@@ -1,0 +1,201 @@
+---
+import { Image } from 'astro:assets';
+import escudo from '../../assets/logo/escudo.png';
+import { club } from '../data/club';
+
+interface Props {
+  mostrarRoster?: boolean;
+  mostrarPartidos?: boolean;
+}
+
+const { mostrarRoster = false, mostrarPartidos = false } = Astro.props;
+
+const links = [
+  { href: '/#el-club', label: 'El club' },
+  ...(mostrarRoster ? [{ href: '/#roster', label: 'Roster' }] : []),
+  { href: '/#entrenador', label: 'Entrenador' },
+  { href: '/#categorias', label: 'Categorías' },
+  ...(mostrarPartidos ? [{ href: '/#partidos', label: 'Partidos' }] : []),
+  { href: '/#patrocinadores', label: 'Patrocinadores' },
+  { href: '/#ubicacion', label: 'Ubicación' },
+  { href: '/#contacto', label: 'Contacto' },
+];
+---
+
+<header class="site-header sticky top-0 z-50 border-b border-white/10 bg-[#0A0A0A]/85 backdrop-blur-xl">
+  <div class="site-header-line" aria-hidden="true"></div>
+  <div class="mx-auto flex min-h-16 max-w-[88rem] items-center justify-between gap-4 px-4 sm:px-6">
+    <a href="/#inicio" class="insignia flex min-w-0 items-center gap-3 no-underline">
+      <span class="insignia-marco">
+        <Image
+          src={escudo}
+          alt=""
+          width={44}
+          height={46}
+          densities={[1, 2]}
+          class="relative z-[1] h-11 w-auto"
+        />
+      </span>
+      <span class="min-w-0">
+        <span class="block font-titulo text-lg font-extrabold uppercase italic leading-none tracking-wide text-white">
+          {club.nombre}
+        </span>
+        <span class="block text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-dorado">
+          {club.ciudadCorta} · {club.fundacion}
+        </span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-5 xl:flex" aria-label="Principal">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class="nav-link font-titulo text-[0.78rem] font-black uppercase italic tracking-widest text-white/80"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href={club.facebook}
+        class="border border-dorado px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-dorado transition-colors hover:bg-dorado hover:text-negro"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Facebook
+      </a>
+    </nav>
+
+    <details class="menu-movil relative xl:hidden">
+      <summary
+        class="flex h-11 list-none items-center justify-center border border-dorado px-3 text-dorado [&::-webkit-details-marker]:hidden"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+      >
+        <span class="icono-abrir font-titulo text-xs font-extrabold uppercase tracking-[0.18em]">Menú</span>
+        <span class="icono-cerrar hidden font-titulo text-xs font-extrabold uppercase tracking-[0.18em]">Cerrar</span>
+      </summary>
+      <div class="absolute right-0 top-[calc(100%+0.75rem)] w-[min(18rem,calc(100vw-2rem))] border border-white/10 bg-negro p-4 shadow-xl">
+        <nav class="flex flex-col gap-1" aria-label="Principal móvil">
+          {
+            links.map((link) => (
+              <a
+                href={link.href}
+                class="nav-link-movil px-3 py-3 font-titulo text-base font-semibold uppercase tracking-wider text-white hover:bg-white/5 hover:text-dorado"
+              >
+                {link.label}
+              </a>
+            ))
+          }
+          <a
+            href={club.facebook}
+            class="mt-2 border border-dorado px-3 py-3 text-center text-sm font-semibold uppercase tracking-wider text-dorado"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Facebook
+          </a>
+        </nav>
+      </div>
+    </details>
+  </div>
+</header>
+
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('.menu-movil');
+  if (menu) {
+    const summary = menu.querySelector('summary');
+
+    const syncLabel = () => {
+      if (!summary) return;
+      summary.setAttribute('aria-label', menu.open ? 'Cerrar menú' : 'Abrir menú');
+      summary.setAttribute('aria-expanded', menu.open ? 'true' : 'false');
+    };
+
+    syncLabel();
+    menu.addEventListener('toggle', syncLabel);
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        summary?.focus();
+      }
+    });
+
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.open = false;
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (menu.open && !menu.contains(event.target as Node)) {
+        menu.open = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .site-header-line {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d29628, #ecc14e, #fff3b0, #ecc14e, #d29628, transparent);
+    background-size: 200% 100%;
+  }
+
+  .site-header::after {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, #8a5a12, #d29628 18%, #ecc14e 42%, #fff6d2 50%, #ecc14e 58%, #d29628 82%, #8a5a12);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .site-header-line {
+      animation: linea-neon 5.5s linear infinite;
+    }
+  }
+
+  .insignia-marco {
+    display: flex;
+    flex: none;
+    padding: 2px;
+    background: linear-gradient(145deg, #ecc14e, rgb(255 255 255 / 0.12) 48%, #d29628);
+  }
+
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -0.35rem;
+    left: 0;
+    height: 2px;
+    background: #ecc14e;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 180ms ease;
+  }
+
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    color: #ecc14e;
+  }
+
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .menu-movil[open] .icono-abrir {
+    display: none;
+  }
+
+  .menu-movil[open] .icono-cerrar {
+    display: block;
+  }
+</style>

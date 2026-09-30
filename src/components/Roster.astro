@@ -1,0 +1,133 @@
+---
+import { porCategoria, type Jugador } from '../lib/jugadores';
+import Eyecatch from './Eyecatch.astro';
+import RosterCard from './RosterCard.astro';
+
+interface Props {
+  jugadores: Jugador[];
+  modoDiseno?: boolean;
+}
+
+const { jugadores, modoDiseno = false } = Astro.props;
+const cat2012 = porCategoria(jugadores, '2012');
+const cat2013 = porCategoria(jugadores, '2013');
+const categorias = [
+  { id: '2012', lista: cat2012, acento: 'dorado' },
+  { id: '2013', lista: cat2013, acento: 'plata' },
+].filter((categoria) => categoria.lista.length > 0);
+---
+
+<section id="roster" class="relative overflow-hidden border-t border-white/8 bg-negro" data-roster>
+  <Eyecatch categoria={categorias[0]?.id ?? '2012'} />
+
+  <div class="relative mx-auto max-w-[88rem] px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+    <p class="text-[0.7rem] font-bold uppercase tracking-[0.28em] text-dorado">Nuestro roster</p>
+    <h2 class="mt-3 font-titulo text-[clamp(2.4rem,7vw,5rem)] font-extrabold uppercase italic leading-[0.84] text-white">
+      {modoDiseno ? 'Vista de diseño' : 'Las categorías del club'}
+    </h2>
+
+    {
+      categorias.length > 1 && (
+        <div class="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="Categorías del roster">
+          {categorias.map((categoria, index) => (
+            <button
+              type="button"
+              class:list={[
+                'min-h-11 border px-4 text-sm font-semibold uppercase tracking-wider',
+                categoria.acento === 'plata' ? 'border-plata text-plata' : 'border-dorado text-dorado',
+              ]}
+              data-roster-tab={categoria.id}
+              role="tab"
+              aria-selected={index === 0 ? 'true' : 'false'}
+              aria-controls={`categoria-${categoria.id}`}
+              id={`tab-${categoria.id}`}
+            >
+              Categoría {categoria.id}
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      categorias.length > 1 && (
+        <p class="mt-3 text-sm text-white/55" data-roster-fallback-link>
+          <a href="#categoria-2012" class="underline decoration-dorado/50 underline-offset-4">Categoría 2012</a>
+          {' · '}
+          <a href="#categoria-2013" class="underline decoration-plata/50 underline-offset-4">Categoría 2013</a>
+        </p>
+      )
+    }
+
+    {
+      categorias.map((categoria) => (
+        <div
+          class="roster-panel mt-8"
+          id={`categoria-${categoria.id}`}
+          data-roster-panel={categoria.id}
+          role="tabpanel"
+          aria-labelledby={`tab-${categoria.id}`}
+        >
+          <h3 class:list={['mb-5 font-titulo text-2xl font-extrabold uppercase', categoria.acento === 'plata' ? 'text-plata' : 'text-dorado']}>
+            Categoría {categoria.id}
+          </h3>
+          <div class="roster-track">
+            {categoria.lista.map((jugador) => (
+              <RosterCard jugador={jugador} />
+            ))}
+          </div>
+          <p class="mt-3 text-center text-xs uppercase tracking-[0.18em] text-white/40 md:hidden">Desliza para ver al equipo</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  import { iniciarRoster } from '../scripts/roster';
+
+  const roster = document.querySelector<HTMLElement>('[data-roster]');
+  if (roster) iniciarRoster(roster);
+</script>
+
+<style>
+  .roster-track {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 767px) {
+    .roster-track {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.5rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .roster-track :global([data-roster-card]) {
+      flex: 0 0 74%;
+      scroll-snap-align: center;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .roster-track {
+      flex-wrap: wrap;
+    }
+
+    .roster-track :global([data-roster-card]) {
+      transition: flex-grow 400ms ease;
+    }
+
+    .roster-track :global([data-roster-card]:hover),
+    .roster-track :global([data-roster-card]:focus-visible),
+    .roster-track :global([data-roster-card]:focus-within) {
+      flex-grow: 1.7;
+    }
+
+    .roster-track:hover :global([data-roster-card]:not(:hover):not(:focus-visible):not(:focus-within)),
+    .roster-track:focus-within :global([data-roster-card]:not(:hover):not(:focus-visible):not(:focus-within)) {
+      filter: brightness(0.72);
+    }
+  }
+</style>

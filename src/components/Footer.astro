@@ -1,0 +1,25 @@
+---
+import { club, horarioCorto } from '../data/club';
+
+const anio = new Date().getFullYear();
+---
+
+<footer class="border-t border-white/10 bg-negro">
+  <div class="mx-auto flex max-w-[88rem] flex-col gap-6 px-4 py-10 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-10">
+    <div>
+      <p class="font-titulo text-3xl font-extrabold uppercase italic text-white">{club.nombre}</p>
+      <p class="mt-2 text-sm text-white/60">
+        {club.ciudad} · Desde {club.fundacion}
+      </p>
+      <p class="mt-1 text-sm text-white/60">
+        {club.sede.nombre} · {horarioCorto()}
+      </p>
+    </div>
+    <div class="flex flex-col gap-2 text-sm text-white/70 sm:items-end">
+      <a href={club.facebook} class="font-semibold uppercase tracking-[0.14em] hover:text-dorado" rel="noopener noreferrer" target="_blank">
+        Facebook
+      </a>
+      <p>© {anio} {club.nombre}</p>
+    </div>
+  </div>
+</footer>

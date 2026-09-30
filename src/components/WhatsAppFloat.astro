@@ -1,0 +1,18 @@
+---
+import { whatsappUrl } from '../data/club';
+
+const href = whatsappUrl('Hola, quiero agendar una clase muestra gratis en All Stars FC');
+---
+
+{
+  href && (
+    <a
+      href={href}
+      class="fixed bottom-4 right-4 z-50 inline-flex min-h-12 items-center bg-dorado px-4 text-sm font-bold uppercase tracking-wider text-negro"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      WhatsApp
+    </a>
+  )
+}

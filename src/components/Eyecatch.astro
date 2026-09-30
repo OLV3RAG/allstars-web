@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import escudo from '../../assets/logo/escudo.png';
+
+interface Props {
+  categoria?: string;
+}
+
+const { categoria = '2012' } = Astro.props;
+---
+
+<div class="eyecatch" data-eyecatch hidden aria-hidden="true">
+  <div class="eyecatch-paneles">
+    <span class="eyecatch-panel tono-0" data-eyecatch-panel></span>
+    <span class="eyecatch-panel tono-1" data-eyecatch-panel></span>
+    <span class="eyecatch-panel tono-2" data-eyecatch-panel></span>
+    <span class="eyecatch-panel tono-3" data-eyecatch-panel></span>
+    <span class="eyecatch-panel tono-4" data-eyecatch-panel></span>
+  </div>
+  <div class="eyecatch-brand" data-eyecatch-brand>
+    <Image src={escudo} alt="" width={96} height={102} loading="lazy" class="h-16 w-auto" />
+    <p class="font-titulo text-3xl font-extrabold uppercase tracking-wide text-white" data-eyecatch-label>
+      Categoría {categoria}
+    </p>
+  </div>
+</div>
+
+<style>
+  .eyecatch {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .eyecatch-paneles {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    height: 100%;
+  }
+
+  .eyecatch-panel {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  .eyecatch-panel:nth-child(even) {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  .tono-0,
+  .tono-4 {
+    background: #0a0a0a;
+  }
+
+  .tono-1,
+  .tono-3 {
+    background: #d29628;
+  }
+
+  .tono-2 {
+    background: #ecc14e;
+  }
+
+  .eyecatch-brand {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    opacity: 0;
+  }
+</style>

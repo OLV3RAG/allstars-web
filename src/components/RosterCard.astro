@@ -1,0 +1,164 @@
+---
+import { Image } from 'astro:assets';
+import escudo from '../../assets/logo/escudo.png';
+import { imagenRoster, type Jugador } from '../lib/jugadores';
+import Silueta from './Silueta.astro';
+
+interface Props {
+  jugador: Jugador;
+}
+
+const { jugador } = Astro.props;
+const foto = imagenRoster(jugador);
+const acento = jugador.categoria === '2013' ? 'plata' : 'dorado';
+---
+
+<article
+  class:list={['roster-card', `acento-${acento}`]}
+  data-roster-card
+  tabindex="0"
+>
+  <div data-card-entrada>
+  <div class="roster-card-outer">
+    <div class="roster-card-inner">
+      <p class="roster-numero" data-card-numero aria-hidden="true">{jugador.numero}</p>
+      <div class="roster-figura" data-card-figura>
+        {
+          foto ? (
+            <Image
+              src={foto}
+              alt=""
+              width={420}
+              height={640}
+              loading="lazy"
+              class="roster-foto"
+            />
+          ) : (
+            <Silueta variante="cuerpo" acento={acento} class="roster-silueta" />
+          )
+        }
+      </div>
+      <div class="roster-franja" data-card-franja>
+        <div class="min-w-0">
+          <p class="font-titulo text-xl font-extrabold uppercase italic leading-none text-white">{jugador.nombre}</p>
+          <p class:list={['mt-1 text-xs font-semibold uppercase tracking-wider', acento === 'plata' ? 'text-plata' : 'text-dorado']}>
+            {jugador.posicion}
+          </p>
+        </div>
+        <Image src={escudo} alt="" width={36} height={38} loading="lazy" class="h-8 w-auto shrink-0" />
+      </div>
+    </div>
+  </div>
+  </div>
+</article>
+
+<style>
+  .roster-card {
+    flex: 1 1 9rem;
+    min-width: 0;
+    outline: none;
+  }
+
+  .roster-card-outer {
+    height: 26rem;
+    overflow: visible;
+    background:
+      linear-gradient(180deg, #0a0a0a 35%, rgb(210 150 40 / 0.28) 100%),
+      repeating-linear-gradient(-18deg, transparent, transparent 14px, rgb(236 193 78 / 0.05) 14px, rgb(236 193 78 / 0.05) 15px);
+    transform: skewX(-12deg);
+  }
+
+  .acento-plata .roster-card-outer {
+    background:
+      linear-gradient(180deg, #0a0a0a 35%, rgb(192 192 192 / 0.22) 100%),
+      repeating-linear-gradient(-18deg, transparent, transparent 14px, rgb(192 192 192 / 0.05) 14px, rgb(192 192 192 / 0.05) 15px);
+  }
+
+  .roster-card-inner {
+    position: relative;
+    height: 100%;
+    transform: skewX(12deg);
+  }
+
+  .roster-numero {
+    position: absolute;
+    right: 4%;
+    top: 8%;
+    z-index: 0;
+    font-family: var(--font-titulo);
+    font-size: 8rem;
+    font-weight: 800;
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 2px rgb(236 193 78 / 0.38);
+    opacity: 0.4;
+  }
+
+  .acento-plata .roster-numero {
+    -webkit-text-stroke: 2px rgb(192 192 192 / 0.45);
+  }
+
+  .roster-figura {
+    position: absolute;
+    inset: auto 8% 18% 8%;
+    z-index: 1;
+    display: flex;
+    height: 78%;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .roster-foto,
+  .roster-silueta {
+    height: 118%;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    object-position: top center;
+    clip-path: inset(0 0 4% 0);
+  }
+
+  .roster-franja {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    background: rgb(10 10 10 / 0.92);
+    padding: 0.7rem 0.85rem 0.75rem;
+  }
+
+  .roster-card-outer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(115deg, transparent 28%, rgb(255 255 255 / 0.2) 50%, transparent 72%);
+    transform: translate3d(-45%, 0, 0);
+  }
+
+  .roster-card.is-gleam .roster-card-outer::after {
+    opacity: 1;
+    animation: gleam 720ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .roster-card.is-gleam .roster-card-outer::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+
+  @keyframes gleam {
+    to {
+      transform: translate3d(45%, 0, 0);
+    }
+  }
+
+</style>

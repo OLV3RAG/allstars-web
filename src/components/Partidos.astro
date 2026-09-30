@@ -1,0 +1,572 @@
+---
+import { Image } from 'astro:assets';
+import escudo from '../../assets/logo/escudo.png';
+import { club } from '../data/club';
+import { marcador, type Partido } from '../lib/partidos';
+
+interface Props {
+  partidos: Partido[];
+  modoDiseno?: boolean;
+}
+
+const { partidos, modoDiseno = false } = Astro.props;
+
+const particulas = new Set(['de', 'del', 'la', 'las', 'los', 'el', 'fc', 'cf', 'y']);
+
+function siglas(nombre: string) {
+  const partes = nombre.trim().split(/\s+/).filter(Boolean);
+  const utiles = partes.filter((parte) => !particulas.has(parte.toLocaleLowerCase('es-MX')));
+  const base = utiles.length > 1 ? utiles : partes;
+  return base
+    .slice(0, 2)
+    .map((parte) => parte[0] ?? '')
+    .join('')
+    .toLocaleUpperCase('es-MX');
+}
+
+const tarjetas = marcador(partidos).map((partido) => {
+  const resultado = partido.tipo === 'resultado';
+  return {
+    partido,
+    resultado,
+    acento: partido.categoria === '2013' ? 'plata' : 'oro',
+    condicion: partido.esLocal ? 'Local' : 'Visita',
+    siglas: siglas(partido.rival),
+    etiqueta: resultado
+      ? `Resultado final, categoría ${partido.categoria}. ${club.nombre} ${partido.golesFavor}, ${partido.rival} ${partido.golesContra}.`
+      : `Próximo encuentro, categoría ${partido.categoria}. ${club.nombre} contra ${partido.rival}. ${partido.fecha}, ${partido.hora}, ${partido.cancha}.`,
+  };
+});
+---
+
+{
+  tarjetas.length > 0 && (
+    <section id="partidos" class="relative overflow-hidden border-t border-white/8 bg-negro" aria-labelledby="partidos-titulo">
+      <div class="atmosfera-estadio" aria-hidden="true"></div>
+      <div class="relative mx-auto max-w-[88rem] px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+        <div data-revelar>
+          {modoDiseno && (
+            <p class="mb-5 inline-block bg-dorado px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-negro">
+              Vista de diseño · datos de muestra
+            </p>
+          )}
+          <p class="transmision">// MATCHDAY CENTER</p>
+          <h2
+            id="partidos-titulo"
+            class="mt-3 max-w-4xl font-titulo text-[clamp(2.4rem,7vw,5rem)] font-extrabold uppercase italic leading-[0.84] text-white"
+          >
+            Marcador y próximos partidos
+          </h2>
+        </div>
+
+        <ul class="marcadores">
+          {tarjetas.map((tarjeta, index) => (
+            <li data-revelar data-revelar-delay={index ? '80' : undefined}>
+              {tarjeta.resultado ? (
+                <article class="tarjeta tarjeta-resultado border border-white/10 bg-[#141414]/80 backdrop-blur-md hover:border-[#ECC14E]/40" aria-label={tarjeta.etiqueta}>
+                  <div class="tarjeta-cuerpo">
+                    <div class="tarjeta-tope">
+                      <p class="estado estado-final">
+                        <span class="pulso" aria-hidden="true"></span>
+                        Finalizado
+                      </p>
+                      <p class:list={['cat', tarjeta.acento === 'plata' ? 'cat-plata' : 'cat-oro']}>
+                        <span class="sr-only">Categoría </span>
+                        {tarjeta.partido.categoria}
+                      </p>
+                    </div>
+
+                    <div class="enfrentamiento">
+                      <div class="equipo">
+                        <Image src={escudo} alt="" width={48} height={51} loading="lazy" class="escudo-mini" />
+                        <p class="equipo-nombre">{club.nombre}</p>
+                      </div>
+                      <p class="cifras text-5xl font-black italic" aria-hidden="true">
+                        <span>{tarjeta.partido.golesFavor}</span>
+                        <span class="guion">-</span>
+                        <span>{tarjeta.partido.golesContra}</span>
+                      </p>
+                      <div class="equipo">
+                        <p class="monograma" aria-hidden="true">{tarjeta.siglas}</p>
+                        <p class="equipo-nombre">{tarjeta.partido.rival}</p>
+                      </div>
+                    </div>
+
+                    <div class="meta">
+                      <p class="meta-fecha">{tarjeta.partido.fecha}</p>
+                      <p class="meta-linea">
+                        <span>{tarjeta.partido.hora}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>{tarjeta.condicion}</span>
+                      </p>
+                      <p class="meta-cancha">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            fill="currentColor"
+                            d="M12 2.2a7.2 7.2 0 0 0-7.2 7.2c0 5.1 6.2 11.6 6.5 11.9a1 1 0 0 0 1.4 0c.3-.3 6.5-6.8 6.5-11.9A7.2 7.2 0 0 0 12 2.2Zm0 9.8a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2Z"
+                          />
+                        </svg>
+                        {tarjeta.partido.cancha}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ) : (
+                <article class="tarjeta tarjeta-proximo border border-white/10 bg-[#141414]/80 backdrop-blur-md hover:border-[#ECC14E]/40" aria-label={tarjeta.etiqueta}>
+                  <div class="tarjeta-cuerpo">
+                    <div class="tarjeta-tope">
+                      <p class="estado estado-proximo">Próximo partido</p>
+                      <p class:list={['cat', tarjeta.acento === 'plata' ? 'cat-plata' : 'cat-oro']}>
+                        <span class="sr-only">Categoría </span>
+                        {tarjeta.partido.categoria}
+                      </p>
+                    </div>
+
+                    <div class="enfrentamiento">
+                      <div class="equipo">
+                        <Image src={escudo} alt="" width={48} height={51} loading="lazy" class="escudo-mini" />
+                        <p class="equipo-nombre">{club.nombre}</p>
+                      </div>
+                      <p class="vs">vs</p>
+                      <div class="equipo">
+                        <p class="monograma" aria-hidden="true">{tarjeta.siglas}</p>
+                        <h3 class="equipo-nombre">{tarjeta.partido.rival}</h3>
+                      </div>
+                    </div>
+                    <p class="reloj-tv">
+                      <span>{tarjeta.partido.fecha}</span>
+                      <span class="reloj-punto" aria-hidden="true">·</span>
+                      <span class="reloj-hora">{tarjeta.partido.hora}</span>
+                    </p>
+                    <p class="meta-cancha meta-cancha-suelta">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                          fill="currentColor"
+                          d="M12 2.2a7.2 7.2 0 0 0-7.2 7.2c0 5.1 6.2 11.6 6.5 11.9a1 1 0 0 0 1.4 0c.3-.3 6.5-6.8 6.5-11.9A7.2 7.2 0 0 0 12 2.2Zm0 9.8a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2Z"
+                        />
+                      </svg>
+                      {tarjeta.partido.cancha}
+                      <span class="condicion">{tarjeta.condicion}</span>
+                    </p>
+                    <a class="enlace-cancha" href="#ubicacion">
+                      Ver ubicación de la cancha
+                    </a>
+                  </div>
+                </article>
+              )}
+            </li>
+          ))}
+        </ul>
+        {tarjetas.length > 1 && (
+          <p class="pista" aria-hidden="true">
+            Desliza para ver los partidos
+          </p>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  section {
+    scroll-margin-top: 5.5rem;
+  }
+
+  .marcadores {
+    display: flex;
+    gap: 0.85rem;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .marcadores > li {
+    display: flex;
+    min-width: 0;
+  }
+
+  .tarjeta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(20 20 20 / 0.8);
+    backdrop-filter: blur(12px);
+    clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px);
+    transition: border-color 200ms ease;
+  }
+
+  .tarjeta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      -18deg,
+      transparent,
+      transparent 22px,
+      rgb(236 193 78 / 0.035) 22px,
+      rgb(236 193 78 / 0.035) 23px
+    );
+  }
+
+  .tarjeta::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 2;
+    width: 2.4rem;
+    height: 0.65rem;
+    background: #0a0a0a;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform: translateX(-50%);
+  }
+
+  .tarjeta-resultado {
+    box-shadow: inset 0 3px 0 #7dcea0;
+  }
+
+  .tarjeta-proximo {
+    box-shadow: inset 0 3px 0 #ecc14e;
+  }
+
+  .tarjeta:hover {
+    border-color: rgb(236 193 78 / 0.4);
+  }
+
+  .tarjeta-cuerpo {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: 100%;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.35rem 1.1rem 1.2rem;
+  }
+
+  .tarjeta-tope {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0.32rem 0.55rem;
+    font-family: var(--font-titulo);
+    font-size: 0.72rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+    border-radius: 999px;
+  }
+
+  .estado-final {
+    border: 1px solid rgb(61 220 132 / 0.45);
+    background: rgb(10 10 10 / 0.72);
+    color: #e7ffef;
+  }
+
+  .estado-proximo {
+    border: 1px solid #f6e7b0;
+    background: linear-gradient(160deg, #fff8dc 0%, #ecc14e 40%, #c48a22 74%, #fff1b8 100%);
+    color: #1a1203;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7);
+  }
+
+  .pulso {
+    width: 0.48rem;
+    height: 0.48rem;
+    flex: none;
+    border-radius: 999px;
+    background: #3ddc84;
+  }
+
+  .cat {
+    margin: 0;
+    padding: 0.28rem 0.5rem;
+    font-family: var(--font-titulo);
+    font-size: 0.95rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+
+  .cat-oro {
+    border: 1px solid #ecc14e;
+    background: #ecc14e;
+    color: #0a0a0a;
+  }
+
+  .cat-plata {
+    border: 1px solid #c0c0c0;
+    background: #c0c0c0;
+    color: #0a0a0a;
+  }
+
+  .enfrentamiento {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 1.35rem;
+  }
+
+  .equipo {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    text-align: center;
+  }
+
+  .escudo-mini {
+    height: 2.75rem;
+    width: auto;
+  }
+
+  .monograma {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    background: rgb(255 255 255 / 0.04);
+    font-family: var(--font-titulo);
+    font-size: 1.05rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: rgb(255 255 255 / 0.82);
+  }
+
+  .equipo-nombre {
+    margin: 0;
+    font-family: var(--font-titulo);
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-weight: 800;
+    font-style: italic;
+    line-height: 0.9;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .cifras {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    font-family: var(--font-titulo);
+    font-size: 3rem;
+    font-weight: 900;
+    font-style: italic;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+    line-height: 0.8;
+    white-space: nowrap;
+    text-shadow: 0 0 22px rgb(236 193 78 / 0.28);
+  }
+
+  .guion {
+    color: #ecc14e;
+    font-weight: 800;
+  }
+
+  .vs {
+    margin: 0;
+    color: #ecc14e;
+    font-family: var(--font-titulo);
+    font-size: 1.35rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .reloj-tv {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.35rem 0.55rem;
+    margin: 1.25rem 0 0;
+    border: 1px solid rgb(236 193 78 / 0.45);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.05), transparent 42%),
+      #0a0a0a;
+    padding: 0.9rem 0.75rem;
+    color: #ecc14e;
+    font-family: var(--font-titulo);
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+    box-shadow:
+      inset 0 0 0 1px rgb(236 193 78 / 0.12),
+      0 0 24px rgb(236 193 78 / 0.14);
+  }
+
+  .reloj-punto {
+    color: rgb(255 255 255 / 0.35);
+  }
+
+  .reloj-hora {
+    color: #fff;
+    font-size: 1.35em;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 16px rgb(236 193 78 / 0.35);
+  }
+
+  .meta {
+    margin-top: auto;
+    padding-top: 1.25rem;
+  }
+
+  .meta-fecha {
+    margin: 0;
+    color: #ecc14e;
+    font-family: var(--font-titulo);
+    font-size: 1.15rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .meta-linea {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0.35rem 0 0;
+    color: rgb(255 255 255 / 0.72);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .meta-cancha {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0.45rem 0 0;
+    color: rgb(255 255 255 / 0.62);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .meta-cancha svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    flex: none;
+    color: #ecc14e;
+  }
+
+  .meta-cancha-suelta {
+    margin-top: 0.85rem;
+  }
+
+  .condicion {
+    color: rgb(255 255 255 / 0.45);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .enlace-cancha {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: 1.15rem;
+    color: rgb(255 255 255 / 0.62);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgb(236 193 78 / 0.45);
+    text-underline-offset: 0.28em;
+  }
+
+  .enlace-cancha:hover {
+    color: #ecc14e;
+  }
+
+  .pista {
+    margin: 0.75rem 0 0;
+    color: rgb(255 255 255 / 0.4);
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 767px) {
+    .marcadores {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.35rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .marcadores::-webkit-scrollbar {
+      display: none;
+    }
+
+    .marcadores > li {
+      flex: 0 0 88%;
+      scroll-snap-align: start;
+    }
+
+    .marcadores > li:only-child {
+      flex-basis: 100%;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .marcadores {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .marcadores:has(> :only-child) {
+      grid-template-columns: minmax(0, 36rem);
+    }
+
+    .tarjeta-cuerpo {
+      padding: 1.5rem 1.35rem 1.35rem;
+    }
+
+    .pista {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pulso {
+      animation: pulso-verde 1.5s ease-out infinite;
+    }
+  }
+
+  @keyframes pulso-verde {
+    0% {
+      box-shadow: 0 0 0 0 rgb(61 220 132 / 0.7);
+    }
+    100% {
+      box-shadow: 0 0 0 8px rgb(61 220 132 / 0);
+    }
+  }
+</style>
