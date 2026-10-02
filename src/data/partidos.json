@@ -1,24 +1,22 @@
 [
   {
     "id": "match-1",
-    "categoria": "2012",
-    "tipo": "resultado",
-    "rival": "Leones FC",
-    "golesFavor": 3,
-    "golesContra": 1,
-    "fecha": "Sábado 26 de Septiembre",
-    "hora": "10:00 AM",
-    "cancha": "Cancha La Raza",
+    "categoria": "2011-2012",
+    "tipo": "proximo",
+    "rival": "Savage Negro",
+    "fecha": "Sábado 3 de Octubre de 2026",
+    "hora": "8:50 AM",
+    "cancha": "Corner Sport - Cancha 1",
     "esLocal": true
   },
   {
     "id": "match-2",
-    "categoria": "2013",
+    "categoria": "2013-2014",
     "tipo": "proximo",
-    "rival": "Tuzos Chihuahua",
-    "fecha": "Sábado 3 de Octubre",
-    "hora": "11:30 AM",
-    "cancha": "Cancha La Raza",
+    "rival": "INDE",
+    "fecha": "Sábado 3 de Octubre de 2026",
+    "hora": "9:40 AM",
+    "cancha": "Corner Sport - Cancha 1",
     "esLocal": true
   }
 ]

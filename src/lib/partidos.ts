@@ -1,6 +1,6 @@
 import partidosJson from '../data/partidos.json';
 
-export type CategoriaPartido = '2012' | '2013';
+export type CategoriaPartido = '2012' | '2013' | '2011-2012' | '2013-2014';
 export type TipoPartido = 'resultado' | 'proximo';
 
 export interface Partido {
@@ -16,7 +16,7 @@ export interface Partido {
   esLocal: boolean;
 }
 
-const categorias = new Set<CategoriaPartido>(['2012', '2013']);
+const categorias = new Set<CategoriaPartido>(['2012', '2013', '2011-2012', '2013-2014']);
 const tipos = new Set<TipoPartido>(['resultado', 'proximo']);
 
 function texto(valor: unknown) {

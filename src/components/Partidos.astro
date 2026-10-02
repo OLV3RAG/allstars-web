@@ -29,7 +29,7 @@ const tarjetas = marcador(partidos).map((partido) => {
   return {
     partido,
     resultado,
-    acento: partido.categoria === '2013' ? 'plata' : 'oro',
+    acento: partido.categoria === '2013' || partido.categoria.startsWith('2013') ? 'plata' : 'oro',
     condicion: partido.esLocal ? 'Local' : 'Visita',
     siglas: siglas(partido.rival),
     etiqueta: resultado
@@ -115,7 +115,7 @@ const tarjetas = marcador(partidos).map((partido) => {
                 <article class="tarjeta tarjeta-proximo border border-white/10 bg-[#141414]/80 backdrop-blur-md hover:border-[#ECC14E]/40" aria-label={tarjeta.etiqueta}>
                   <div class="tarjeta-cuerpo">
                     <div class="tarjeta-tope">
-                      <p class="estado estado-proximo">Próximo partido</p>
+                      <p class="estado estado-proximo">Matchday · Próximo partido</p>
                       <p class:list={['cat', tarjeta.acento === 'plata' ? 'cat-plata' : 'cat-oro']}>
                         <span class="sr-only">Categoría </span>
                         {tarjeta.partido.categoria}
@@ -134,9 +134,8 @@ const tarjetas = marcador(partidos).map((partido) => {
                       </div>
                     </div>
                     <p class="reloj-tv">
-                      <span>{tarjeta.partido.fecha}</span>
-                      <span class="reloj-punto" aria-hidden="true">·</span>
                       <span class="reloj-hora">{tarjeta.partido.hora}</span>
+                      <span class="reloj-fecha">{tarjeta.partido.fecha}</span>
                     </p>
                     <p class="meta-cancha meta-cancha-suelta">
                       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -248,6 +247,7 @@ const tarjetas = marcador(partidos).map((partido) => {
 
   .tarjeta-tope {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
     justify-content: space-between;
     gap: 0.75rem;
@@ -396,10 +396,9 @@ const tarjetas = marcador(partidos).map((partido) => {
 
   .reloj-tv {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0.35rem 0.55rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
     margin: 1.25rem 0 0;
     border: 1px solid rgb(236 193 78 / 0.45);
     background:
@@ -420,15 +419,18 @@ const tarjetas = marcador(partidos).map((partido) => {
       0 0 24px rgb(236 193 78 / 0.14);
   }
 
-  .reloj-punto {
-    color: rgb(255 255 255 / 0.35);
-  }
-
   .reloj-hora {
     color: #fff;
-    font-size: 1.35em;
+    font-size: clamp(2rem, 5vw, 2.6rem);
     font-variant-numeric: tabular-nums;
+    line-height: 0.9;
     text-shadow: 0 0 16px rgb(236 193 78 / 0.35);
+  }
+
+  .reloj-fecha {
+    color: #ecc14e;
+    font-size: 0.72em;
+    letter-spacing: 0.04em;
   }
 
   .meta {
