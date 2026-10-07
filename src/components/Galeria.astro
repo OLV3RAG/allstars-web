@@ -97,6 +97,8 @@ const visible = Boolean(videoSrc) || fotos.length > 0;
   const descripcion = seccion?.querySelector<HTMLElement>('[data-galeria-descripcion]');
   const cerrar = seccion?.querySelector<HTMLButtonElement>('[data-galeria-cerrar]');
 
+  const video = seccion?.querySelector('video');
+
   if (seccion && modal && foto) {
     seccion.querySelectorAll<HTMLButtonElement>('[data-galeria-abrir]').forEach((boton) => {
       boton.addEventListener('click', () => {
@@ -105,6 +107,10 @@ const visible = Boolean(videoSrc) || fotos.length > 0;
         if (titulo) titulo.textContent = boton.dataset.titulo || '';
         if (categoria) categoria.textContent = boton.dataset.categoria || '';
         if (descripcion) descripcion.textContent = boton.dataset.alt || '';
+        if (video) {
+          video.pause();
+          video.style.visibility = 'hidden';
+        }
         modal.showModal();
         cerrar?.focus();
       });
@@ -119,6 +125,7 @@ const visible = Boolean(videoSrc) || fotos.length > 0;
     modal.addEventListener('close', () => {
       foto.removeAttribute('src');
       foto.alt = '';
+      if (video) video.style.visibility = '';
     });
   }
 </script>
