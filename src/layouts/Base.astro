@@ -11,9 +11,10 @@ interface Props {
   description?: string;
   mostrarRoster?: boolean;
   mostrarPartidos?: boolean;
+  mostrarGaleria?: boolean;
 }
 
-const { title = seo.title, description = seo.description, mostrarRoster = false, mostrarPartidos = false } = Astro.props;
+const { title = seo.title, description = seo.description, mostrarRoster = false, mostrarPartidos = false, mostrarGaleria = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -71,7 +72,7 @@ const { title = seo.title, description = seo.description, mostrarRoster = false,
     >
       Saltar al contenido
     </a>
-    <Header mostrarRoster={mostrarRoster} mostrarPartidos={mostrarPartidos} />
+    <Header mostrarRoster={mostrarRoster} mostrarPartidos={mostrarPartidos} mostrarGaleria={mostrarGaleria} />
     <main id="contenido">
       <slot />
     </main>

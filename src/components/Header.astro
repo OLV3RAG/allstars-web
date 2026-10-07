@@ -6,9 +6,10 @@ import { club } from '../data/club';
 interface Props {
   mostrarRoster?: boolean;
   mostrarPartidos?: boolean;
+  mostrarGaleria?: boolean;
 }
 
-const { mostrarRoster = false, mostrarPartidos = false } = Astro.props;
+const { mostrarRoster = false, mostrarPartidos = false, mostrarGaleria = false } = Astro.props;
 
 const links = [
   { href: '/#el-club', label: 'El club' },
@@ -16,6 +17,7 @@ const links = [
   { href: '/#entrenador', label: 'Entrenador' },
   { href: '/#categorias', label: 'Categorías' },
   ...(mostrarPartidos ? [{ href: '/#partidos', label: 'Partidos' }] : []),
+  ...(mostrarGaleria ? [{ href: '/#galeria', label: 'Galería' }] : []),
   { href: '/#patrocinadores', label: 'Patrocinadores' },
   { href: '/#ubicacion', label: 'Ubicación' },
   { href: '/#contacto', label: 'Contacto' },

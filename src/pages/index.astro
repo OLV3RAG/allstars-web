@@ -6,24 +6,28 @@ import Entrenador from '../components/Entrenador.astro';
 import Roster from '../components/Roster.astro';
 import CategoriasCostos from '../components/CategoriasCostos.astro';
 import Partidos from '../components/Partidos.astro';
+import Galeria from '../components/Galeria.astro';
 import Patrocinadores from '../components/Patrocinadores.astro';
 import Ubicacion from '../components/Ubicacion.astro';
 import Contacto from '../components/Contacto.astro';
 import { jugadoresConRetrato, jugadoresPublicos } from '../lib/jugadores';
 import { partidosPublicos } from '../lib/partidos';
+import galeria from '../data/galeria.json';
 
 const roster = jugadoresPublicos();
 const retratos = jugadoresConRetrato(roster);
 const partidos = partidosPublicos();
+const hayGaleria = galeria.fotos.length > 0 || Boolean(galeria.highlights.videoUrl);
 ---
 
-<Base mostrarRoster={roster.length > 0} mostrarPartidos={partidos.length > 0}>
+<Base mostrarRoster={roster.length > 0} mostrarPartidos={partidos.length > 0} mostrarGaleria={hayGaleria}>
   <Hero jugadores={retratos} />
   <Club />
   {roster.length > 0 && <Roster jugadores={roster} />}
   <Entrenador />
   <CategoriasCostos />
   {partidos.length > 0 && <Partidos partidos={partidos} />}
+  {hayGaleria && <Galeria />}
   <Patrocinadores />
   <Ubicacion />
   <Contacto />

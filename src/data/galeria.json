@@ -1,0 +1,94 @@
+{
+  "highlights": {
+    "titulo": "Highlights de la Jornada",
+    "subtitulo": "Revive la jugada destacada de All Stars FC en Corner Sport Cancha 1.",
+    "videoUrl": "/assets/video/WhatsApp Video 2026-10-06 at 7.21.24 PM.mp4",
+    "categoria": "Jornada Oficial"
+  },
+  "fotos": [
+    {
+      "id": "foto-1",
+      "src": "/assets/galeria/47d89e32-e74e-4cc5-ab20-fe8f2762d84b.jpg",
+      "alt": "Festejo de gol de la categoría infantil All Stars FC",
+      "titulo": "Festejo de Gol",
+      "categoria": "Categoría Menor"
+    },
+    {
+      "id": "foto-2",
+      "src": "/assets/galeria/6fbd42e0-df76-47c8-a68a-e4cde6b5f007.jpg",
+      "alt": "Foto oficial de alineación All Stars FC",
+      "titulo": "Plantel Oficial",
+      "categoria": "Categoría 2011-2012"
+    },
+    {
+      "id": "foto-3",
+      "src": "/assets/galeria/716445c1-87ca-4cd0-9db6-113fa0e6e570.jpg",
+      "alt": "Acción en cancha Corner Sport",
+      "titulo": "Partido Oficial",
+      "categoria": "Matchday"
+    },
+    {
+      "id": "foto-4",
+      "src": "/assets/galeria/71be9e7c-268a-4ecc-9d35-57e284720987.jpg",
+      "alt": "Entrenamiento y jugada All Stars FC",
+      "titulo": "Entrega en la Cancha",
+      "categoria": "Acción"
+    },
+    {
+      "id": "foto-5",
+      "src": "/assets/galeria/75df2769-c0b9-480a-a0ca-9e75dc6e4d40.jpg",
+      "alt": "Momento destacado del encuentro",
+      "titulo": "Jugada del Encuentro",
+      "categoria": "Jornada 2026"
+    },
+    {
+      "id": "foto-6",
+      "src": "/assets/galeria/92b423ff-6ce1-466c-bd08-e1afd87f666c.jpg",
+      "alt": "Recuperación de balón y presión",
+      "titulo": "Intensidad",
+      "categoria": "Matchday"
+    },
+    {
+      "id": "foto-7",
+      "src": "/assets/galeria/b4071df0-957d-422d-8756-3bb7734b5eb2.jpg",
+      "alt": "Conducción en Corner Sport Cancha 1",
+      "titulo": "Juego en Equipo",
+      "categoria": "Matchday"
+    },
+    {
+      "id": "foto-8",
+      "src": "/assets/galeria/c0713407-3068-4364-938a-f907408fe80d.jpg",
+      "alt": "Festejo y unión deportiva All Stars FC",
+      "titulo": "Unión del Equipo",
+      "categoria": "Momentos"
+    },
+    {
+      "id": "foto-9",
+      "src": "/assets/galeria/c734b70a-8220-4e14-8542-b8082799ce58.jpg",
+      "alt": "Encuentro deportivo All Stars FC",
+      "titulo": "Garra y Pasión",
+      "categoria": "Jornada Oficial"
+    },
+    {
+      "id": "foto-10",
+      "src": "/assets/galeria/cf9e45d3-5136-4354-b9ee-08df36f7b994.jpg",
+      "alt": "Jugada individual en el partido",
+      "titulo": "Talento en Cancha",
+      "categoria": "Highlights"
+    },
+    {
+      "id": "foto-11",
+      "src": "/assets/galeria/d332d666-10ea-4a78-aca1-131cbb19de92.jpg",
+      "alt": "Alineación y concentración previa al juego",
+      "titulo": "Concentración",
+      "categoria": "Alineación"
+    },
+    {
+      "id": "foto-12",
+      "src": "/assets/galeria/de15005f-0a09-4674-b4e6-04c41ee941c4.jpg",
+      "alt": "Cierre de partido y celebración",
+      "titulo": "Orgullo All Stars",
+      "categoria": "Momentos"
+    }
+  ]
+}
