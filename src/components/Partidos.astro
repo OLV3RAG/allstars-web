@@ -1,4 +1,5 @@
 ---
+import EsquinasAltar from './EsquinasAltar.astro';
 import { Image } from 'astro:assets';
 import escudo from '../../assets/logo/escudo.png';
 import { club } from '../data/club';
@@ -53,7 +54,7 @@ const tarjetas = marcador(partidos).map((partido) => {
           <p class="transmision">// MATCHDAY CENTER</p>
           <h2
             id="partidos-titulo"
-            class="mt-3 max-w-4xl font-titulo text-[clamp(2.4rem,7vw,5rem)] font-extrabold uppercase italic leading-[0.84] text-white"
+            class="titulo-festivo mt-3 max-w-4xl font-titulo text-[clamp(2.4rem,7vw,5rem)] font-extrabold uppercase italic leading-[0.84]"
           >
             Marcador y próximos partidos
           </h2>
@@ -64,11 +65,13 @@ const tarjetas = marcador(partidos).map((partido) => {
             <li data-revelar data-revelar-delay={index ? '80' : undefined}>
               {tarjeta.resultado ? (
                 <article class="tarjeta tarjeta-resultado border border-white/10 bg-[#141414]/80 backdrop-blur-md hover:border-[#ECC14E]/40" aria-label={tarjeta.etiqueta}>
+                  <EsquinasAltar />
                   <div class="tarjeta-cuerpo">
                     <div class="tarjeta-tope">
                       <p class="estado estado-final">
                         <span class="pulso" aria-hidden="true"></span>
                         Finalizado
+                        <span class="flor" aria-hidden="true"></span>
                       </p>
                       <p class:list={['cat', tarjeta.acento === 'plata' ? 'cat-plata' : 'cat-oro']}>
                         <span class="sr-only">Categoría </span>
@@ -113,9 +116,13 @@ const tarjetas = marcador(partidos).map((partido) => {
                 </article>
               ) : (
                 <article class="tarjeta tarjeta-proximo border border-white/10 bg-[#141414]/80 backdrop-blur-md hover:border-[#ECC14E]/40" aria-label={tarjeta.etiqueta}>
+                  <EsquinasAltar />
                   <div class="tarjeta-cuerpo">
                     <div class="tarjeta-tope">
-                      <p class="estado estado-proximo">Matchday · Próximo partido</p>
+                      <p class="estado estado-proximo">
+                        Matchday · Próximo partido
+                        <span class="flor" aria-hidden="true"></span>
+                      </p>
                       <p class:list={['cat', tarjeta.acento === 'plata' ? 'cat-plata' : 'cat-oro']}>
                         <span class="sr-only">Categoría </span>
                         {tarjeta.partido.categoria}
@@ -189,7 +196,7 @@ const tarjetas = marcador(partidos).map((partido) => {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border: 1px solid rgb(255 255 255 / 0.1);
+    border: 1px solid rgb(255 128 0 / 0.28);
     background: rgb(20 20 20 / 0.8);
     backdrop-filter: blur(12px);
     clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px);
@@ -232,7 +239,29 @@ const tarjetas = marcador(partidos).map((partido) => {
   }
 
   .tarjeta:hover {
-    border-color: rgb(236 193 78 / 0.4);
+    border-color: rgb(255 165 0 / 0.55);
+  }
+
+  .tarjeta-resultado:hover {
+    box-shadow: inset 0 3px 0 #7dcea0, 0 0 25px rgba(255, 128, 0, 0.35);
+  }
+
+  .tarjeta-proximo:hover {
+    box-shadow: inset 0 3px 0 #ecc14e, 0 0 25px rgba(255, 128, 0, 0.35);
+  }
+
+  .flor {
+    display: inline-block;
+    width: 0.72rem;
+    height: 0.72rem;
+    flex: none;
+    background:
+      radial-gradient(circle at 50% 50%, #ecc14e 0 18%, transparent 19%),
+      radial-gradient(circle at 50% 18%, #ff8000 0 28%, transparent 29%),
+      radial-gradient(circle at 82% 38%, #ffa500 0 26%, transparent 27%),
+      radial-gradient(circle at 74% 78%, #ff8000 0 26%, transparent 27%),
+      radial-gradient(circle at 26% 78%, #ffa500 0 26%, transparent 27%),
+      radial-gradient(circle at 18% 38%, #ff8000 0 26%, transparent 27%);
   }
 
   .tarjeta-cuerpo {

@@ -24,6 +24,7 @@ const whatsapp = whatsappUrl('Hola, quiero agendar una clase muestra gratis en A
             rel="noopener noreferrer"
             target="_blank"
           >
+            <span class="flor-cta" aria-hidden="true"></span>
             <span>Contactar por Facebook</span>
           </a>
           {
@@ -101,8 +102,12 @@ const whatsapp = whatsappUrl('Hola, quiero agendar una clase muestra gratis en A
     min-height: 3.6rem;
     align-items: center;
     justify-content: center;
+    gap: 0.45rem;
     overflow: hidden;
-    background: #0a0a0a;
+    border: 2px solid transparent;
+    background:
+      linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+      linear-gradient(100deg, #ff8000, #8e24aa, #ecc14e) border-box;
     padding: 0 1.6rem;
     font-size: 0.86rem;
     font-weight: 700;
@@ -130,7 +135,10 @@ const whatsapp = whatsappUrl('Hola, quiero agendar una clase muestra gratis en A
 
   .ticket-cta:hover,
   .ticket-cta:focus-visible {
-    background: #141414;
+    background:
+      linear-gradient(#141414, #141414) padding-box,
+      linear-gradient(100deg, #ecc14e, #ff8000, #e91e63) border-box;
+    box-shadow: 0 0 22px rgb(255 128 0 / 0.35);
     color: #fff;
   }
 

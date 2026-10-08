@@ -1,0 +1,57 @@
+---
+const esquina = 'M2 14 V2 H14 M2 8 H6 V2 M8 2c2 3 2 6 0 8 M18 4c-2 2-5 2-7 0 M16 10c-3 1-5 4-4 7';
+---
+
+<span class="altar" aria-hidden="true">
+  <svg class="altar-esq altar-tl" viewBox="0 0 28 28"><path d={esquina} /></svg>
+  <svg class="altar-esq altar-tr" viewBox="0 0 28 28"><path d={esquina} /></svg>
+  <svg class="altar-esq altar-bl" viewBox="0 0 28 28"><path d={esquina} /></svg>
+  <svg class="altar-esq altar-br" viewBox="0 0 28 28"><path d={esquina} /></svg>
+</span>
+
+<style>
+  .altar {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .altar-esq {
+    position: absolute;
+    width: 1.65rem;
+    height: 1.65rem;
+    overflow: visible;
+    fill: none;
+    stroke: #ff8000;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .altar-tl {
+    top: 0.4rem;
+    left: 0.4rem;
+  }
+
+  .altar-tr {
+    top: 0.4rem;
+    right: 0.4rem;
+    transform: scaleX(-1);
+    stroke: #e91e63;
+  }
+
+  .altar-bl {
+    bottom: 0.4rem;
+    left: 0.4rem;
+    transform: scaleY(-1);
+    stroke: #8e24aa;
+  }
+
+  .altar-br {
+    right: 0.4rem;
+    bottom: 0.4rem;
+    transform: scale(-1);
+    stroke: #ecc14e;
+  }
+</style>

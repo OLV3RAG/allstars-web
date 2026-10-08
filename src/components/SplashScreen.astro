@@ -11,9 +11,39 @@ import { club } from '../data/club';
   <p class="sr-only" role="status">Cargando {club.nombre}</p>
   <div class="splash-campo" aria-hidden="true"></div>
   <div class="splash-marco" aria-hidden="true"></div>
+  <div class="splash-cirios" aria-hidden="true">
+    <span class="cirio cirio-izq"><span class="llama"></span></span>
+    <span class="cirio cirio-der"><span class="llama"></span></span>
+  </div>
+  <div class="alfombra" aria-hidden="true">
+    {Array.from({ length: 18 }, (_, indice) => <span class="alfombra-petalo" style={`--i:${indice}`} />)}
+  </div>
 
   <div class="splash-contenido" aria-hidden="true">
     <div class="splash-halo"></div>
+    <div class="splash-aura" aria-hidden="true">
+      {Array.from({ length: 16 }, (_, indice) => <span class="aura-petalo" style={`--i:${indice}`} />)}
+    </div>
+    <svg class="splash-calavera splash-calavera-der" viewBox="0 0 80 96" aria-hidden="true">
+      <path
+        d="M40 8c-16 0-28 12-28 28 0 10 5 18 12 23v9c0 3 2 5 5 5h4v7h14v-7h4c3 0 5-2 5-5v-9c7-5 12-13 12-23C68 20 56 8 40 8z"
+        fill="none"
+        stroke="#ff8000"
+        stroke-width="1.6"></path>
+      <circle cx="30" cy="36" r="5" fill="none" stroke="#e91e63" stroke-width="1.4"></circle>
+      <circle cx="50" cy="36" r="5" fill="none" stroke="#e91e63" stroke-width="1.4"></circle>
+      <circle cx="40" cy="78" r="7" fill="none" stroke="#ecc14e" stroke-width="1.4"></circle>
+    </svg>
+    <svg class="splash-calavera" viewBox="0 0 80 96" aria-hidden="true">
+      <path
+        d="M40 8c-16 0-28 12-28 28 0 10 5 18 12 23v9c0 3 2 5 5 5h4v7h14v-7h4c3 0 5-2 5-5v-9c7-5 12-13 12-23C68 20 56 8 40 8z"
+        fill="none"
+        stroke="#ecc14e"
+        stroke-width="1.4"></path>
+      <circle cx="30" cy="36" r="5" fill="none" stroke="#7b1fa2" stroke-width="1.2"></circle>
+      <circle cx="50" cy="36" r="5" fill="none" stroke="#7b1fa2" stroke-width="1.2"></circle>
+      <path d="M36 48h8M34 56h4M42 56h4" fill="none" stroke="#ff8000" stroke-width="1.2" stroke-linecap="round"></path>
+    </svg>
     <div class="splash-escudo drop-shadow-[0_0_25px_rgba(236,193,78,0.4)]">
       <Image
         src={escudo}
@@ -31,6 +61,7 @@ import { club } from '../data/club';
     <p class="splash-nombre font-titulo text-[clamp(2.7rem,8vw,4.75rem)] font-extrabold uppercase italic leading-[0.84]">
       {club.nombre}
     </p>
+    <p class="splash-lema font-titulo">Tradición, pasión y gloria</p>
     <p class="splash-ticker font-titulo">Chihuahua · Temporada 2026</p>
 
     <div class="mx-auto mt-4 h-1 w-48 overflow-hidden rounded-full bg-white/10">
@@ -55,7 +86,7 @@ import { club } from '../data/club';
     }
 
     var reducida = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var duracion = reducida ? 320 : 1400;
+    var duracion = reducida ? 320 : 2000;
     var contador = splash.querySelector('[data-splash-contador]');
     var inicio = performance.now();
     var cerrado = false;
@@ -145,7 +176,9 @@ import { club } from '../data/club';
 
   .splash-campo {
     background:
-      radial-gradient(ellipse 46% 38% at 50% 42%, rgb(210 150 40 / 0.22), transparent 68%),
+      radial-gradient(ellipse 46% 38% at 50% 42%, rgb(255 128 0 / 0.22), transparent 68%),
+      radial-gradient(ellipse 32% 28% at 18% 78%, rgb(123 31 162 / 0.22), transparent 70%),
+      radial-gradient(ellipse 28% 24% at 84% 22%, rgb(74 20 140 / 0.2), transparent 70%),
       #0a0a0a;
   }
 
@@ -176,6 +209,129 @@ import { club } from '../data/club';
     align-items: center;
     padding: 1.5rem;
     text-align: center;
+  }
+
+  .splash-aura {
+    position: absolute;
+    top: 4%;
+    left: 50%;
+    width: 16rem;
+    height: 16rem;
+    margin-left: -8rem;
+    pointer-events: none;
+  }
+
+  .aura-petalo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.95rem;
+    height: 1.45rem;
+    margin: -0.72rem 0 0 -0.48rem;
+    border-radius: 80% 12% 80% 12%;
+    background: linear-gradient(#fff1b0, #ffa500 40%, #ff8000);
+    opacity: 0.92;
+    transform: rotate(calc(var(--i) * 22.5deg)) translateY(-7.4rem);
+  }
+
+  .aura-petalo:nth-child(odd) {
+    background: linear-gradient(#e91e63, #ff8000);
+    width: 0.72rem;
+  }
+
+  .splash-calavera {
+    position: absolute;
+    top: 18%;
+    left: calc(50% - 13rem);
+    width: 4.4rem;
+    height: auto;
+    opacity: 0.72;
+    pointer-events: none;
+  }
+
+  .splash-calavera-der {
+    left: auto;
+    right: calc(50% - 13rem);
+  }
+
+  .splash-cirios,
+  .alfombra {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .cirio {
+    position: absolute;
+    bottom: 12%;
+    width: 1.15rem;
+    height: 6.5rem;
+    border-radius: 0.2rem 0.2rem 0.35rem 0.35rem;
+    background: linear-gradient(#fff6d8, #ecc14e 18%, #c48a22 70%, #6a4010);
+    box-shadow: 0 0 18px rgb(255 128 0 / 0.35);
+  }
+
+  .cirio-izq {
+    left: max(1.25rem, 8vw);
+  }
+
+  .cirio-der {
+    right: max(1.25rem, 8vw);
+  }
+
+  .llama {
+    position: absolute;
+    top: -1.55rem;
+    left: 50%;
+    width: 1.35rem;
+    height: 1.9rem;
+    margin-left: -0.68rem;
+    border-radius: 50% 50% 46% 46%;
+    background: radial-gradient(circle at 50% 72%, #fff8d8, #ff8000 42%, #e91e63 70%, transparent 74%);
+    transform-origin: bottom center;
+    will-change: transform, opacity;
+    animation: candle-flicker 0.9s ease-in-out infinite;
+  }
+
+  .cirio-der .llama {
+    animation-delay: -0.4s;
+  }
+
+  .alfombra {
+    inset: auto 0 0;
+    height: 6.5rem;
+  }
+
+  .alfombra-petalo {
+    position: absolute;
+    bottom: 0.4rem;
+    left: calc(var(--i) * 5.5%);
+    width: 1.25rem;
+    height: 1.8rem;
+    border-radius: 80% 8% 80% 8%;
+    background: linear-gradient(#fff1b0, #ff8000);
+    opacity: 0.9;
+    transform: rotate(calc(var(--i) * 17deg));
+  }
+
+  .alfombra-petalo:nth-child(3n) {
+    background: linear-gradient(#e91e63, #ff8000);
+    bottom: 1.3rem;
+  }
+
+  .splash-lema {
+    margin: 0.85rem 0 0;
+    background: linear-gradient(90deg, #ff8000, #ecc14e 46%, #e91e63);
+    background-clip: text;
+    color: transparent;
+    -webkit-background-clip: text;
+    font-size: clamp(0.95rem, 2.5vw, 1.35rem);
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.18em;
+    line-height: 1.1;
+    text-transform: uppercase;
   }
 
   .splash-halo {
@@ -231,7 +387,7 @@ import { club } from '../data/club';
 
   .splash-barra {
     transform: scaleX(0);
-    animation: llenar-cancha 1.4s cubic-bezier(0.16, 0.84, 0.32, 1) forwards;
+    animation: llenar-cancha 2s cubic-bezier(0.16, 0.84, 0.32, 1) forwards;
   }
 
   .splash-pill {
@@ -259,12 +415,50 @@ import { club } from '../data/club';
   }
 
   @media (prefers-reduced-motion: no-preference) {
+    .splash-contenido {
+      animation: splash-entra 0.7s ease-out both;
+    }
+
     .splash-escudo {
       animation: shield-pulse 1.4s ease-in-out infinite;
     }
 
     .splash-halo {
       animation: halo-splash 1.4s ease-in-out infinite;
+    }
+
+    .splash-aura {
+      animation: aura-giro 18s linear infinite;
+      will-change: transform;
+    }
+  }
+
+  @keyframes candle-flicker {
+    0%,
+    100% {
+      opacity: 0.75;
+      transform: scale(1) rotate(-2deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.08) rotate(3deg);
+    }
+  }
+
+  @keyframes splash-entra {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes aura-giro {
+    to {
+      transform: rotate(360deg);
     }
   }
 

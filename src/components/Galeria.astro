@@ -1,4 +1,5 @@
 ---
+import EsquinasAltar from './EsquinasAltar.astro';
 import galeria from '../data/galeria.json';
 
 const { highlights, fotos } = galeria;
@@ -13,7 +14,7 @@ const visible = Boolean(videoSrc) || fotos.length > 0;
       <div class="relative mx-auto max-w-[88rem] px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
         <div data-revelar>
           <p class="transmision">// MATCH HIGHLIGHTS</p>
-          <h2 id="galeria-titulo" class="mt-3 max-w-4xl font-titulo text-[clamp(2.4rem,7vw,5rem)] font-extrabold uppercase italic leading-[0.84] text-white">
+          <h2 id="galeria-titulo" class="titulo-festivo mt-3 max-w-4xl font-titulo text-[clamp(2.4rem,7vw,5rem)] font-extrabold uppercase italic leading-[0.84]">
             Galería y highlights
           </h2>
         </div>
@@ -39,7 +40,8 @@ const visible = Boolean(videoSrc) || fotos.length > 0;
           fotos.length > 0 && (
             <ul class="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
               {fotos.map((foto, index) => (
-                <li data-revelar data-revelar-delay={index % 4 ? String(index * 40) : undefined}>
+                <li class="relative" data-revelar data-revelar-delay={index % 4 ? String(index * 40) : undefined}>
+                  <EsquinasAltar />
                   <button
                     type="button"
                     class="group relative aspect-square w-full overflow-hidden rounded-xl border border-white/10 bg-[#141414] text-left"
@@ -177,18 +179,49 @@ const visible = Boolean(videoSrc) || fotos.length > 0;
     margin: 0 auto;
     width: min(100%, 22rem);
     overflow: hidden;
-    border: 1px solid rgb(236 193 78 / 0.45);
+    border: 0;
     border-radius: 1.15rem;
-    background: #000;
-    box-shadow: 0 0 36px rgb(236 193 78 / 0.12);
+    padding: 2px;
+    background: linear-gradient(to right, rgb(255 128 0 / 0.45), transparent 42%, rgb(123 31 162 / 0.45));
+    box-shadow: 0 0 36px rgb(255 128 0 / 0.12);
   }
 
   .highlight-marco video {
     display: block;
     width: 100%;
     aspect-ratio: 9 / 16;
+    border-radius: calc(1.15rem - 2px);
     background: #000;
     object-fit: contain;
+  }
+
+  [data-galeria-abrir]::before {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    inset: 0.4rem;
+    pointer-events: none;
+    opacity: 0;
+    background:
+      linear-gradient(#ff8000, #ff8000) 0 0 / 14px 2px no-repeat,
+      linear-gradient(#7b1fa2, #7b1fa2) 0 0 / 2px 14px no-repeat,
+      linear-gradient(#ff8000, #ff8000) 100% 0 / 14px 2px no-repeat,
+      linear-gradient(#7b1fa2, #7b1fa2) 100% 0 / 2px 14px no-repeat,
+      linear-gradient(#7b1fa2, #7b1fa2) 0 100% / 14px 2px no-repeat,
+      linear-gradient(#ff8000, #ff8000) 0 100% / 2px 14px no-repeat,
+      linear-gradient(#ff8000, #ff8000) 100% 100% / 14px 2px no-repeat,
+      linear-gradient(#7b1fa2, #7b1fa2) 100% 100% / 2px 14px no-repeat;
+    transition: opacity 300ms ease;
+  }
+
+  [data-galeria-abrir]:hover::before,
+  [data-galeria-abrir]:focus-visible::before {
+    opacity: 1;
+  }
+
+  [data-galeria-abrir]:hover,
+  [data-galeria-abrir]:focus-visible {
+    box-shadow: 0 0 25px rgba(255, 128, 0, 0.35);
   }
 
   .galeria-modal {

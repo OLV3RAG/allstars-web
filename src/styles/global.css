@@ -5,6 +5,11 @@
   --color-negro-alto: #141414;
   --color-dorado: #ecc14e;
   --color-dorado-profundo: #d29628;
+  --color-cempasuchil: #ff8000;
+  --color-cempasuchil-claro: #ffa500;
+  --color-papel: #7b1fa2;
+  --color-papel-profundo: #4a148c;
+  --color-rosa-mx: #e91e63;
   --color-blanco: #ffffff;
   --color-plata: #c0c0c0;
   --font-titulo: "Barlow Condensed", "Arial Narrow", "Impact", sans-serif;
@@ -45,13 +50,17 @@ body::after {
 }
 
 body::before {
-  background: linear-gradient(
-    180deg,
-    rgb(236 193 78 / 0.09) 0%,
-    transparent 24%,
-    transparent 76%,
-    rgb(210 150 40 / 0.07) 100%
-  );
+  background:
+    radial-gradient(ellipse 42% 28% at 8% 0%, rgb(255 128 0 / 0.14), transparent 70%),
+    radial-gradient(ellipse 36% 32% at 100% 18%, rgb(123 31 162 / 0.12), transparent 68%),
+    radial-gradient(ellipse 40% 24% at 70% 100%, rgb(255 165 0 / 0.08), transparent 70%),
+    linear-gradient(
+      180deg,
+      rgb(236 193 78 / 0.09) 0%,
+      transparent 24%,
+      transparent 76%,
+      rgb(74 20 140 / 0.08) 100%
+    );
 }
 
 body::after {
@@ -126,13 +135,40 @@ footer {
   color: #ecc14e;
 }
 
-.transmision::before {
+.transmision::before,
+.transmision::after {
   content: '';
-  width: 1.35rem;
-  height: 0.38rem;
+  width: 5.4rem;
+  height: 1.45rem;
   flex: none;
-  background: linear-gradient(90deg, #d29628, #ecc14e);
-  transform: skewX(-18deg);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 28'%3E%3Cpath fill='none' stroke='%23FF8000' stroke-width='2.2' d='M2 18H16V8h14v10h14V8h14'/%3E%3Ccircle cx='78' cy='14' r='3.1' fill='%23ECC14E'/%3E%3Ccircle cx='78' cy='6' r='3.6' fill='%23FF8000'/%3E%3Ccircle cx='78' cy='22' r='3.6' fill='%23E91E63'/%3E%3Ccircle cx='70' cy='14' r='3.6' fill='%238E24AA'/%3E%3Ccircle cx='86' cy='14' r='3.6' fill='%2300BCD4'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.transmision::after {
+  transform: scaleX(-1);
+}
+
+.titulo-festivo {
+  background-image: linear-gradient(90deg, #ff8000, #ecc14e 48%, #e91e63);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+.flor-cta {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  width: 0.82rem;
+  height: 0.82rem;
+  flex: none;
+  background:
+    radial-gradient(circle at 50% 50%, #ecc14e 0 18%, transparent 19%),
+    radial-gradient(circle at 50% 16%, #ff8000 0 30%, transparent 31%),
+    radial-gradient(circle at 84% 40%, #e91e63 0 28%, transparent 29%),
+    radial-gradient(circle at 72% 80%, #ff8000 0 28%, transparent 29%),
+    radial-gradient(circle at 28% 80%, #8e24aa 0 28%, transparent 29%),
+    radial-gradient(circle at 16% 40%, #ffa500 0 28%, transparent 29%);
 }
 
 .atmosfera-estadio {

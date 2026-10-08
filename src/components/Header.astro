@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { mostrarRoster = false, mostrarPartidos = false, mostrarGaleria = false } = Astro.props;
+const festivos = new Set(['/#partidos', '/#galeria', '/#contacto']);
 
 const links = [
   { href: '/#el-club', label: 'El club' },
@@ -25,6 +26,7 @@ const links = [
 ---
 
 <header class="site-header sticky top-0 z-50 border-b border-white/10 bg-[#0A0A0A]/85 backdrop-blur-xl">
+  <div class="papel-picado" aria-hidden="true"></div>
   <div class="site-header-line" aria-hidden="true"></div>
   <div class="mx-auto flex min-h-16 max-w-[88rem] items-center justify-between gap-4 px-4 sm:px-6">
     <a href="/#inicio" class="insignia flex min-w-0 items-center gap-3 no-underline">
@@ -53,8 +55,12 @@ const links = [
         links.map((link) => (
           <a
             href={link.href}
-            class="nav-link font-titulo text-[0.78rem] font-black uppercase italic tracking-widest text-white/80"
+            class:list={[
+              'nav-link font-titulo text-[0.78rem] font-black uppercase italic tracking-widest text-white/80',
+              festivos.has(link.href) && 'nav-festivo',
+            ]}
           >
+            {festivos.has(link.href) && <span class="flor-cta" aria-hidden="true" />}
             {link.label}
           </a>
         ))
@@ -84,8 +90,12 @@ const links = [
             links.map((link) => (
               <a
                 href={link.href}
-                class="nav-link-movil px-3 py-3 font-titulo text-base font-semibold uppercase tracking-wider text-white hover:bg-white/5 hover:text-dorado"
+                class:list={[
+                  'nav-link-movil px-3 py-3 font-titulo text-base font-semibold uppercase tracking-wider text-white hover:bg-white/5 hover:text-dorado',
+                  festivos.has(link.href) && 'nav-festivo',
+                ]}
               >
+                {festivos.has(link.href) && <span class="flor-cta" aria-hidden="true" />}
                 {link.label}
               </a>
             ))
@@ -140,6 +150,17 @@ const links = [
 </script>
 
 <style>
+  .papel-picado {
+    height: 4px;
+    background: repeating-linear-gradient(90deg, #ff8000 0 12px, #7b1fa2 12px 24px, #ecc14e 24px 36px, #4a148c 36px 48px);
+    -webkit-mask-image: radial-gradient(circle at 6px 4px, transparent 3px, #000 3.5px);
+    mask-image: radial-gradient(circle at 6px 4px, transparent 3px, #000 3.5px);
+    -webkit-mask-size: 12px 4px;
+    mask-size: 12px 4px;
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+  }
+
   .site-header-line {
     height: 2px;
     background: linear-gradient(90deg, transparent, #d29628, #ecc14e, #fff3b0, #ecc14e, #d29628, transparent);
@@ -170,6 +191,30 @@ const links = [
     position: relative;
   }
 
+  .nav-festivo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    border: 1px solid transparent;
+    padding: 0.18rem 0.42rem;
+    background:
+      linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+      linear-gradient(100deg, #ff8000, #8e24aa, #ecc14e) border-box;
+    background-size: 100% 100%, 220% 100%;
+    background-position: 0 0, 0 0;
+    transition: background-position 400ms ease, box-shadow 200ms ease;
+  }
+
+  .nav-link-movil.nav-festivo {
+    display: flex;
+  }
+
+  .nav-festivo:hover,
+  .nav-festivo:focus-visible {
+    background-position: 0 0, 100% 0;
+    box-shadow: 0 0 16px rgb(255 128 0 / 0.4);
+  }
+
   .nav-link::after {
     content: '';
     position: absolute;
@@ -186,6 +231,7 @@ const links = [
   .nav-link:hover,
   .nav-link:focus-visible {
     color: #ecc14e;
+    text-shadow: 0 0 14px rgb(255 165 0 / 0.45);
   }
 
   .nav-link:hover::after,

@@ -1,0 +1,79 @@
+---
+const colores = ['#FF8000', '#E91E63', '#8E24AA', '#ECC14E', '#00BCD4'];
+const banderas = Array.from({ length: 28 }, (_, indice) => ({
+  color: colores[indice % colores.length],
+  motivo: indice % 3,
+  indice,
+}));
+
+const cuerpo = 'M8 0H72L66 88L56 78L46 94L36 78L26 94L16 88L8 0Z';
+const calavera =
+  'M40 40m-16 0a16 18 0 1 0 32 0a16 18 0 1 0-32 0M31 36m-3.4 0a3.4 4 0 1 0 6.8 0a3.4 4 0 1 0-6.8 0M49 36m-3.4 0a3.4 4 0 1 0 6.8 0a3.4 4 0 1 0-6.8 0M37 48h6v3h-6z';
+const balon =
+  'M40 46m-16 0a16 16 0 1 0 32 0a16 16 0 1 0-32 0M40 36l6.2 4.6-2.4 7.2h-7.6l-2.4-7.2z';
+const flor =
+  'M40 30m-7 0a7 7 0 1 0 14 0a7 7 0 1 0-14 0M40 62m-7 0a7 7 0 1 0 14 0a7 7 0 1 0-14 0M24 46m-7 0a7 7 0 1 0 14 0a7 7 0 1 0-14 0M56 46m-7 0a7 7 0 1 0 14 0a7 7 0 1 0-14 0';
+const calados = [calavera, balon, flor];
+---
+
+<div class="tira" aria-hidden="true">
+  <div class="cordel"></div>
+  <div class="banderines">
+    {
+      banderas.map((bandera) => (
+        <svg class="bandera" viewBox="0 0 80 104" style={`color:${bandera.color};--i:${bandera.indice}`}>
+          <path fill="currentColor" fill-rule="evenodd" d={`${cuerpo}${calados[bandera.motivo]}`} />
+        </svg>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .tira {
+    position: relative;
+    z-index: 30;
+    overflow: hidden;
+    pointer-events: none;
+    background: linear-gradient(#0a0a0a, transparent 70%);
+  }
+
+  .cordel {
+    height: 4px;
+    background: linear-gradient(90deg, #ff8000, #e91e63, #8e24aa, #ecc14e, #00bcd4);
+  }
+
+  .banderines {
+    display: flex;
+    justify-content: center;
+    perspective: 900px;
+  }
+
+  .bandera {
+    width: 4.15rem;
+    height: 5.5rem;
+    flex: none;
+    margin-top: -1px;
+    transform-origin: top center;
+    will-change: transform;
+    animation: wave-flag 2.8s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.14s);
+    filter: drop-shadow(0 8px 6px rgb(0 0 0 / 0.28));
+  }
+
+  @keyframes wave-flag {
+    0%,
+    100% {
+      transform: rotateZ(-2.2deg) rotateX(0deg);
+    }
+    50% {
+      transform: rotateZ(2.6deg) rotateX(16deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bandera {
+      animation: none;
+    }
+  }
+</style>

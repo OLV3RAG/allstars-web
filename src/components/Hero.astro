@@ -29,6 +29,8 @@ function palabras(texto: string) {
   aria-label="Presentación de All Stars FC"
 >
   <div class="hero-atmosfera pointer-events-none absolute inset-0" aria-hidden="true"></div>
+  <span class="vela vela-izq" aria-hidden="true"></span>
+  <span class="vela vela-der" aria-hidden="true"></span>
   <svg class="hero-cancha" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <g fill="none" stroke="white" stroke-width="2">
       <rect x="70" y="48" width="1060" height="604"></rect>
@@ -94,6 +96,9 @@ function palabras(texto: string) {
     </div>
 
     <div class="hero-onair">
+      <p class="mb-3 inline-flex items-center rounded-full border border-[#FF8000]/30 bg-[#FF8000]/10 px-3 py-1 font-titulo text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#FFA500]">
+        Edición especial · Día de Muertos ⚽🌼
+      </p>
       <div class="hero-pill-wrap">
         <p class="hero-pill" data-hero-block>
           <span class="hero-live" aria-hidden="true"></span>
@@ -167,12 +172,14 @@ function palabras(texto: string) {
 
       <div class="hero-acciones">
         <a href="#contacto" class="cta-principal bg-[#ECC14E] font-bold uppercase tracking-wider text-negro">
+          <span class="flor-cta" aria-hidden="true"></span>
           <span class="cta-principal-label">Agenda tu clase gratis</span>
         </a>
         <a
           href={modoDiseno || retratos.length ? '#roster' : '#el-club'}
           class="cta-secundario"
         >
+          <span class="flor-cta" aria-hidden="true"></span>
           Conoce al equipo
         </a>
       </div>
@@ -502,6 +509,7 @@ function palabras(texto: string) {
   .cta-principal {
     position: relative;
     isolation: isolate;
+    gap: 0.45rem;
     min-height: 3.4rem;
     overflow: hidden;
     background: linear-gradient(180deg, #f6d56a 0%, #ecc14e 46%, #d29628 100%);
@@ -533,13 +541,20 @@ function palabras(texto: string) {
   }
 
   .cta-secundario {
-    border: 1px solid rgb(255 255 255 / 0.7);
+    gap: 0.45rem;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+      linear-gradient(100deg, #ff8000, #8e24aa, #ecc14e) border-box;
+    background-size: 100% 100%, 220% 100%;
     color: #fff;
+    transition: background-position 400ms ease, box-shadow 200ms ease;
   }
 
   .cta-secundario:hover,
   .cta-secundario:focus-visible {
-    border-color: #ecc14e;
+    background-position: 0 0, 100% 0;
+    box-shadow: 0 0 18px rgb(255 128 0 / 0.35);
     color: #ecc14e;
   }
 
@@ -768,6 +783,49 @@ function palabras(texto: string) {
   @media (min-width: 1280px) {
     .hero-podio {
       width: min(100%, 480px);
+    }
+  }
+
+  .vela {
+    position: absolute;
+    z-index: 2;
+    width: 7rem;
+    height: 7rem;
+    pointer-events: none;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgb(255 165 0 / 0.45), rgb(255 128 0 / 0.12) 42%, transparent 70%);
+    will-change: transform, opacity;
+    animation: candle-flicker 2.8s ease-in-out infinite;
+  }
+
+  .vela-izq {
+    top: 12%;
+    left: 4%;
+  }
+
+  .vela-der {
+    right: 6%;
+    bottom: 18%;
+    animation-delay: -1.2s;
+    background: radial-gradient(circle, rgb(123 31 162 / 0.35), rgb(255 128 0 / 0.12) 46%, transparent 72%);
+  }
+
+  @keyframes candle-flicker {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(1.08);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vela {
+      animation: none;
+      opacity: 0.55;
     }
   }
 

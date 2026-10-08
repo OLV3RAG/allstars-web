@@ -1,7 +1,9 @@
 ---
 import '../styles/global.css';
 import SplashScreen from '../components/SplashScreen.astro';
+import PetalosBackground from '../components/PetalosBackground.astro';
 import Header from '../components/Header.astro';
+import PapelPicado from '../components/PapelPicado.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import { seo } from '../data/club';
@@ -73,6 +75,8 @@ const { title = seo.title, description = seo.description, mostrarRoster = false,
       Saltar al contenido
     </a>
     <Header mostrarRoster={mostrarRoster} mostrarPartidos={mostrarPartidos} mostrarGaleria={mostrarGaleria} />
+    <PapelPicado />
+    <PetalosBackground />
     <main id="contenido">
       <slot />
     </main>

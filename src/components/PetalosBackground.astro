@@ -1,0 +1,72 @@
+---
+const petalos = [
+  { left: '4%', delay: '0s', duration: '18s', size: '0.7rem', drift: '16px' },
+  { left: '12%', delay: '-6s', duration: '22s', size: '0.55rem', drift: '-14px' },
+  { left: '23%', delay: '-11s', duration: '16s', size: '0.8rem', drift: '12px' },
+  { left: '34%', delay: '-3s', duration: '20s', size: '0.5rem', drift: '-18px' },
+  { left: '46%', delay: '-14s', duration: '19s', size: '0.65rem', drift: '10px' },
+  { left: '58%', delay: '-8s', duration: '21s', size: '0.75rem', drift: '-12px' },
+  { left: '69%', delay: '-16s', duration: '17s', size: '0.5rem', drift: '18px' },
+  { left: '78%', delay: '-2s', duration: '23s', size: '0.7rem', drift: '-10px' },
+  { left: '88%', delay: '-10s', duration: '18s', size: '0.6rem', drift: '14px' },
+  { left: '95%', delay: '-5s', duration: '20s', size: '0.45rem', drift: '-16px' },
+];
+---
+
+<div class="petalos pointer-events-none fixed inset-0 z-20 overflow-hidden motion-reduce:hidden" aria-hidden="true">
+  {
+    petalos.map((petalo) => (
+      <span
+        class="petalo"
+        style={`left:${petalo.left};animation-delay:${petalo.delay};animation-duration:${petalo.duration};width:${petalo.size};--drift:${petalo.drift}`}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .petalo {
+    position: absolute;
+    top: -12%;
+    height: 1.55em;
+    border-radius: 80% 12% 80% 12%;
+    background: linear-gradient(160deg, #ffa500 0%, #ff8000 58%, #d29628 100%);
+    opacity: 0.65;
+    will-change: transform;
+    animation-name: float-petal;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .petalo:nth-child(3n) {
+    background: linear-gradient(160deg, #ecc14e, #ff8000);
+  }
+
+  .petalo:nth-child(odd) {
+    height: 1.85em;
+  }
+
+  @keyframes float-petal {
+    0% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate3d(var(--drift), 28vh, 0) rotate(50deg);
+    }
+    50% {
+      transform: translate3d(calc(var(--drift) * -0.6), 58vh, 0) rotate(110deg);
+    }
+    75% {
+      transform: translate3d(var(--drift), 84vh, 0) rotate(200deg);
+    }
+    100% {
+      transform: translate3d(0, 112vh, 0) rotate(280deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .petalos {
+      display: none;
+    }
+  }
+</style>
