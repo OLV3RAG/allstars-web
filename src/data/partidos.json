@@ -1,22 +1,44 @@
 [
   {
-    "id": "match-1",
-    "categoria": "2011-2012",
+    "id": "match-2026-10-09-1",
+    "categoria": "2013 - 2014",
     "tipo": "proximo",
+    "rival": "Águilas - 14",
+    "fecha": "Viernes 9 de Octubre del 2026",
+    "hora": "6:20 PM",
+    "cancha": "Cancha 1",
+    "esLocal": true
+  },
+  {
+    "id": "match-2026-10-09-2",
+    "categoria": "2011 - 2012",
+    "tipo": "proximo",
+    "rival": "La Raza Femenil",
+    "fecha": "Viernes 9 de Octubre del 2026",
+    "hora": "7:10 PM",
+    "cancha": "Cancha 2",
+    "esLocal": true
+  },
+  {
+    "id": "match-2026-10-03-1",
+    "categoria": "2011-2012",
+    "tipo": "finalizado",
     "rival": "Savage Negro",
     "fecha": "Sábado 3 de Octubre de 2026",
     "hora": "8:50 AM",
     "cancha": "Corner Sport - Cancha 1",
-    "esLocal": true
+    "esLocal": true,
+    "estado": "Marcador por confirmar"
   },
   {
-    "id": "match-2",
+    "id": "match-2026-10-03-2",
     "categoria": "2013-2014",
-    "tipo": "proximo",
+    "tipo": "finalizado",
     "rival": "INDE",
     "fecha": "Sábado 3 de Octubre de 2026",
     "hora": "9:40 AM",
     "cancha": "Corner Sport - Cancha 1",
-    "esLocal": true
+    "esLocal": true,
+    "estado": "Marcador por confirmar"
   }
 ]
