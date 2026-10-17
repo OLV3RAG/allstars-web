@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import CumpleanosBanner from '../components/CumpleanosBanner.astro';
 import Club from '../components/Club.astro';
 import Entrenador from '../components/Entrenador.astro';
 import Roster from '../components/Roster.astro';
@@ -23,7 +22,6 @@ const hayGaleria = galeria.fotos.length > 0 || Boolean(galeria.highlights.videoU
 
 <Base mostrarRoster={roster.length > 0} mostrarPartidos={partidos.length > 0} mostrarGaleria={hayGaleria}>
   <Hero jugadores={retratos} />
-  <CumpleanosBanner />
   <Club />
   {roster.length > 0 && <Roster jugadores={roster} />}
   <Entrenador />

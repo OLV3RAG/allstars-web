@@ -7,20 +7,6 @@
   },
   "fotos": [
     {
-      "id": "cumple-1",
-      "src": "/assets/galeria/cumpleaños-oct1.jpg",
-      "alt": "Feliz Cumpleaños Jugador All Stars FC",
-      "titulo": "¡Feliz Cumpleaños!",
-      "categoria": "Cumpleaños All Stars"
-    },
-    {
-      "id": "cumple-2",
-      "src": "/assets/galeria/cumpleaños-oct2.jpg",
-      "alt": "Feliz Cumpleaños Jugador All Stars FC",
-      "titulo": "¡Feliz Cumpleaños!",
-      "categoria": "Cumpleaños All Stars"
-    },
-    {
       "id": "foto-1",
       "src": "/assets/galeria/47d89e32-e74e-4cc5-ab20-fe8f2762d84b.jpg",
       "alt": "Festejo de gol de la categoría infantil All Stars FC",
