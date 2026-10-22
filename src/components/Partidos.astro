@@ -28,22 +28,35 @@ function siglas(nombre: string) {
     .toLocaleUpperCase('es-MX');
 }
 
+function lado(nombre: string, esClub: boolean) {
+  return { nombre, esClub, siglas: esClub ? '' : siglas(nombre) };
+}
+
 function ficha(partido: Partido) {
   const jugado = partido.tipo === 'resultado' || partido.tipo === 'finalizado';
   const conMarcador =
     jugado && Number.isInteger(partido.golesFavor) && Number.isInteger(partido.golesContra);
+  const clubLado = lado(club.nombre, true);
+  const rivalLado = lado(partido.rival, false);
+  const anfitrion = partido.esLocal ? club.nombre : partido.rival;
+  const visita = partido.esLocal ? partido.rival : club.nombre;
+  const golesAnfitrion = partido.esLocal ? partido.golesFavor : partido.golesContra;
+  const golesVisita = partido.esLocal ? partido.golesContra : partido.golesFavor;
   return {
     partido,
     jugado,
     conMarcador,
     acento: partido.categoria.startsWith('2013') ? 'plata' : 'oro',
     condicion: partido.esLocal ? 'Local' : 'Visita',
-    siglas: siglas(partido.rival),
+    izquierda: partido.esLocal ? clubLado : rivalLado,
+    derecha: partido.esLocal ? rivalLado : clubLado,
+    golesIzquierda: partido.esLocal ? partido.golesFavor : partido.golesContra,
+    golesDerecha: partido.esLocal ? partido.golesContra : partido.golesFavor,
     etiqueta: conMarcador
-      ? `Resultado final, categoría ${partido.categoria}. ${club.nombre} ${partido.golesFavor}, ${partido.rival} ${partido.golesContra}.`
+      ? `Resultado final, categoría ${partido.categoria}. ${anfitrion} ${golesAnfitrion}, ${visita} ${golesVisita}.`
       : jugado
-        ? `Partido concluido, marcador por confirmar. Categoría ${partido.categoria}. ${club.nombre} contra ${partido.rival}. ${partido.fecha}, ${partido.hora}, ${partido.cancha}.`
-        : `Próximo encuentro, categoría ${partido.categoria}. ${club.nombre} contra ${partido.rival}. ${partido.fecha}, ${partido.hora}, ${partido.cancha}.`,
+        ? `Partido concluido, marcador por confirmar. Categoría ${partido.categoria}. ${anfitrion} contra ${visita}. ${partido.fecha}, ${partido.hora}, ${partido.cancha}.`
+        : `Próximo encuentro, categoría ${partido.categoria}. ${anfitrion} contra ${visita}. ${partido.fecha}, ${partido.hora}, ${partido.cancha}.`,
   };
 }
 
@@ -77,7 +90,7 @@ const tarjetas = [...jornada, ...recientes];
           jornada.length > 0 && (
             <div class="jornada">
               <p class="inline-flex items-center rounded-full border border-[#ECC14E]/30 bg-[#ECC14E]/10 px-3 py-1 font-titulo text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#ECC14E]">
-                Próxima jornada · Viernes 9 de octubre
+                Próxima jornada · Sábado 24 de octubre
               </p>
               <ul class="marcadores">
                 {jornada.map((tarjeta, index) => (
@@ -98,13 +111,29 @@ const tarjetas = [...jornada, ...recientes];
 
                         <div class="enfrentamiento">
                           <div class="equipo">
-                            <Image src={escudo} alt="" width={48} height={51} loading="lazy" class="escudo-mini" />
-                            <p class="equipo-nombre">{club.nombre}</p>
+                            {tarjeta.izquierda.esClub ? (
+                              <Image src={escudo} alt="" width={48} height={51} loading="lazy" class="escudo-mini" />
+                            ) : (
+                              <p class="monograma" aria-hidden="true">{tarjeta.izquierda.siglas}</p>
+                            )}
+                            {tarjeta.izquierda.esClub ? (
+                              <p class="equipo-nombre">{tarjeta.izquierda.nombre}</p>
+                            ) : (
+                              <h3 class="equipo-nombre">{tarjeta.izquierda.nombre}</h3>
+                            )}
                           </div>
                           <p class="vs">vs</p>
                           <div class="equipo">
-                            <p class="monograma" aria-hidden="true">{tarjeta.siglas}</p>
-                            <h3 class="equipo-nombre">{tarjeta.partido.rival}</h3>
+                            {tarjeta.derecha.esClub ? (
+                              <Image src={escudo} alt="" width={48} height={51} loading="lazy" class="escudo-mini" />
+                            ) : (
+                              <p class="monograma" aria-hidden="true">{tarjeta.derecha.siglas}</p>
+                            )}
+                            {tarjeta.derecha.esClub ? (
+                              <p class="equipo-nombre">{tarjeta.derecha.nombre}</p>
+                            ) : (
+                              <h3 class="equipo-nombre">{tarjeta.derecha.nombre}</h3>
+                            )}
                           </div>
                         </div>
                         <p class="reloj-tv">
@@ -166,21 +195,29 @@ const tarjetas = [...jornada, ...recientes];
 
                         <div class="enfrentamiento">
                           <div class="equipo">
-                            <Image src={escudo} alt="" width={48} height={51} loading="lazy" class="escudo-mini" />
-                            <p class="equipo-nombre">{club.nombre}</p>
+                            {tarjeta.izquierda.esClub ? (
+                              <Image src={escudo} alt="" width={48} height={51} loading="lazy" class="escudo-mini" />
+                            ) : (
+                              <p class="monograma" aria-hidden="true">{tarjeta.izquierda.siglas}</p>
+                            )}
+                            <p class="equipo-nombre">{tarjeta.izquierda.nombre}</p>
                           </div>
                           {tarjeta.conMarcador ? (
                             <p class="cifras text-5xl font-black italic" aria-hidden="true">
-                              <span>{tarjeta.partido.golesFavor}</span>
+                              <span>{tarjeta.golesIzquierda}</span>
                               <span class="guion">-</span>
-                              <span>{tarjeta.partido.golesContra}</span>
+                              <span>{tarjeta.golesDerecha}</span>
                             </p>
                           ) : (
                             <p class="vs">vs</p>
                           )}
                           <div class="equipo">
-                            <p class="monograma" aria-hidden="true">{tarjeta.siglas}</p>
-                            <p class="equipo-nombre">{tarjeta.partido.rival}</p>
+                            {tarjeta.derecha.esClub ? (
+                              <Image src={escudo} alt="" width={48} height={51} loading="lazy" class="escudo-mini" />
+                            ) : (
+                              <p class="monograma" aria-hidden="true">{tarjeta.derecha.siglas}</p>
+                            )}
+                            <p class="equipo-nombre">{tarjeta.derecha.nombre}</p>
                           </div>
                         </div>
 

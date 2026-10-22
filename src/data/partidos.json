@@ -1,5 +1,25 @@
 [
   {
+    "id": "match-2026-10-24-1",
+    "categoria": "2011-2012",
+    "tipo": "proximo",
+    "rival": "Pies Hermosos",
+    "fecha": "Sábado 24 de Octubre del 2026",
+    "hora": "8:50 AM",
+    "cancha": "Cancha Almanza",
+    "esLocal": false
+  },
+  {
+    "id": "match-2026-10-24-2",
+    "categoria": "2013-2014",
+    "tipo": "proximo",
+    "rival": "DC CHIH",
+    "fecha": "Sábado 24 de Octubre del 2026",
+    "hora": "9:40 AM",
+    "cancha": "Cancha Almanza",
+    "esLocal": false
+  },
+  {
     "id": "match-2026-10-09-1",
     "categoria": "2013 - 2014",
     "tipo": "finalizado",
