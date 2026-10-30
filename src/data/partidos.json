@@ -1,23 +1,45 @@
 [
   {
-    "id": "match-2026-10-24-1",
+    "id": "match-2026-10-31-1",
+    "categoria": "2013-2014",
+    "tipo": "proximo",
+    "rival": "SAVAGE CUAUH",
+    "fecha": "Sábado 31 de Octubre del 2026",
+    "hora": "9:50 AM",
+    "cancha": "Cancha 1",
+    "esLocal": true
+  },
+  {
+    "id": "match-2026-10-31-2",
     "categoria": "2011-2012",
     "tipo": "proximo",
+    "rival": "SAVAGE CUAUH 12",
+    "fecha": "Sábado 31 de Octubre del 2026",
+    "hora": "10:40 AM",
+    "cancha": "Cancha 1",
+    "esLocal": true
+  },
+  {
+    "id": "match-2026-10-24-1",
+    "categoria": "2011-2012",
+    "tipo": "finalizado",
     "rival": "Pies Hermosos",
     "fecha": "Sábado 24 de Octubre del 2026",
     "hora": "8:50 AM",
     "cancha": "Cancha Almanza",
-    "esLocal": false
+    "esLocal": false,
+    "estado": "Marcador por confirmar"
   },
   {
     "id": "match-2026-10-24-2",
     "categoria": "2013-2014",
-    "tipo": "proximo",
+    "tipo": "finalizado",
     "rival": "DC CHIH",
     "fecha": "Sábado 24 de Octubre del 2026",
     "hora": "9:40 AM",
     "cancha": "Cancha Almanza",
-    "esLocal": false
+    "esLocal": false,
+    "estado": "Marcador por confirmar"
   },
   {
     "id": "match-2026-10-09-1",
